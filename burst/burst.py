@@ -150,7 +150,7 @@ def search(payload, method="general"):
 
     p_dialog = xbmcgui.DialogProgressBG()
     if not payload['silent']:
-        p_dialog.create('Elementum [COLOR FFFF6B00]Burst[/COLOR]', translation(32061))
+        p_dialog.create('Elementum [COLOR FFFF6B00]Rajada[/COLOR]', translation(32061))
 
     if 'titles' in payload:
         log.debug("Translated titles from Elementum: %s" % (repr(payload['titles'])))
@@ -216,10 +216,10 @@ def got_results(provider, results):
     # 2 "Size"
     # 3 "Balanced"
 
-    if not sort_by or sort_by == 3 or sort_by > 3:
-        # TODO: think of something interesting to balance sort results
-        sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_balance'])), reverse=True)
-    elif sort_by == 0:
+    #if not sort_by or sort_by == 3 or sort_by > 3:
+    #    # TODO: think of something interesting to balance sort results
+    #    sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_balance'])), reverse=True)
+    if sort_by == 0: # rajada: assert sort by resolution
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_resolution'])), reverse=True)
     elif sort_by == 1:
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['seeds'])), reverse=True)
@@ -310,19 +310,23 @@ def extract_torrents(provider, client):
             else:
                 try:
                     torrent = extract_from_page(provider, subclient.content)
-                    if torrent and not torrent.startswith('magnet') and len(uri) > 1:  # Stick back cookies if needed
-                        torrent = '%s|%s' % (torrent, uri[1])
+                    #if torrent and not torrent.startswith('magnet') and len(uri) > 1:  # Stick back cookies if needed
+                    #    torrent = '%s|%s' % (torrent, uri[1])
                 except Exception as e:
                     import traceback
                     log.error("[%s] Subpage extraction for %s failed with: %s" % (provider, repr(uri[0]), repr(e)))
                     map(log.debug, traceback.format_exc().split("\n"))
 
             log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent))
-            ret = (id, name, info_hash, torrent, size, seeds, peers)
-
-            # Cache this subpage result if another query would need to request same url.
-            provider_cache[uri[0]] = torrent
-            q.put_nowait(ret)
+            torrent_counter = 1
+            for torrent_item in torrent: # rajada: loop over all magnets
+                ret = (id, name, info_hash, torrent_item, size, seeds, peers)
+                #ret = (id, "[COLOR blue](Link " + str(torrent_counter) + ")[/COLOR] " + name, info_hash, torrent_item, size, seeds, peers)
+                # Cache this subpage result if another query would need to request same url.
+                provider_cache[uri[0]] = torrent_item
+                q.put_nowait(ret)
+                torrent_counter += 1
+            torrent_counter = 1
 
     if not dom:
         if debug_parser:
@@ -559,7 +563,7 @@ def extract_from_page(provider, content):
     try:
         matches = re.findall(r'magnet:\?[^\'"\s<>\[\]]+', content)
         if matches:
-            result = matches[0]
+            result = matches # rajada: return all results
             log.debug('[%s] Matched magnet link: %s' % (provider, repr(result)))
             return result
 
