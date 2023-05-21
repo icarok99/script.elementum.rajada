@@ -319,9 +319,14 @@ def extract_torrents(provider, client):
 
             log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent))
             torrent_counter = 1
+            link_prefix = "[COLOR blue](Link " + str(torrent_counter) + ")[/COLOR] "
+            t_name = "[COLOR blue](T)[/COLOR] "
+            s_name = "[COLOR blue](S)[/COLOR] "
             for torrent_item in torrent: # rajada: loop over all magnets
-                ret = (id, name, info_hash, torrent_item, size, seeds, peers)
-                #ret = (id, "[COLOR blue](Link " + str(torrent_counter) + ")[/COLOR] " + name, info_hash, torrent_item, size, seeds, peers)
+                ret = None
+                magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
+                if len(magnet_name) >= 1: ret = (id, t_name + unquote(magnet_name[0]), info_hash, torrent_item, size, seeds, peers)
+                else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers)
                 # Cache this subpage result if another query would need to request same url.
                 provider_cache[uri[0]] = torrent_item
                 q.put_nowait(ret)

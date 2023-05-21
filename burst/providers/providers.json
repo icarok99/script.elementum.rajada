@@ -3154,7 +3154,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "cinetorrent.com.br",
+        "name": "CineTorrent",
         "parser": {
             "infohash": "",
             "name": "item('a', order=2)",
@@ -3200,7 +3200,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "nerdfilmes.com.br",
+        "name": "NerdFilmes",
         "parser": {
             "infohash": "",
             "name": "item('a', order=2)",
@@ -3246,7 +3246,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "lapumia.org",
+        "name": "Lapumia",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3292,7 +3292,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "comandotorrents.to",
+        "name": "ComandoTorrents",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3338,7 +3338,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "insanostorrent.com",
+        "name": "InsanosTorrent",
         "parser": {
             "infohash": "",
             "name": "item('h1', order=1)",
@@ -3384,7 +3384,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "filmeviatorrents.org",
+        "name": "FilmeViaTorrents",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3430,7 +3430,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "torrentdosfilmeshd1.net",
+        "name": "TorrentDosFilmesHD1",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3476,7 +3476,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "meufilmestorrenthd.net",
+        "name": "MeuFilmesTorrentHD",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3522,7 +3522,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "playfilmetorrent.net",
+        "name": "PlayFilmeTorrent",
         "parser": {
             "infohash": "",
             "name": "item('span', order=2)",
@@ -3568,7 +3568,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "wolverdonfilme.net",
+        "name": "WolverdonFilme",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3614,7 +3614,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "filmestorrent.tv",
+        "name": "FilmesTorrent",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3660,7 +3660,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "filmestorrents.pro",
+        "name": "FilmesTorrents",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
@@ -3706,7 +3706,7 @@
         "movie_extra": "",
         "movie_keywords": "{title} {year}",
         "movie_query": "EXTRA",
-        "name": "torrentdofilmes.com",
+        "name": "TorrentDoFilmes",
         "parser": {
             "infohash": "",
             "name": "item('a', order=1)",
