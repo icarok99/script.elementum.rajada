@@ -12,7 +12,7 @@
     <setting id="tor_dns_help" label="32141" type="text" enable="false" subsetting="true" />
     <setting label="32033" id="min_size" type="slider" option="float" range="0,0.25,100" default="0" />
     <setting label="32034" id="max_size" type="slider" option="float" range="1,0.25,500" default="100" />
-    <setting label="32040" id="max_results" type="slider" default="3" option="int" range="1,1,25" />
+    <setting label="32040" id="max_results" type="slider" default="5" option="int" range="1,1,25" />
     <setting label="32124" id="auto_timeout" type="bool" default="true" />
     <setting label="32070" id="timeout" type="slider" default="25" option="int" range="3,1,180" enable="eq(-1,false)" />
     <setting label="32071" id="timeout_help" type="text" enable="false" subsetting="true" />
@@ -485,10 +485,9 @@
     <setting label="32037" id="filtering_help" type="text" enable="false" subsetting="true" />
     <setting label="32038" id="accept" type="text" default="" subsetting="true" enable="eq(-2,true)" />
 	<!--
-		Blocking:
-		- recommended movie lists at meufilmestorrenthd.net, wolverdonfilme.net ...
+		Blocking ads, recommended movie lists and other unuseful results
 	-->
-    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:" subsetting="true" enable="eq(-3,true)" />
+    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH" subsetting="true" enable="eq(-3,true)" />
     <setting label="32017" id="require" type="text" default="" subsetting="true" enable="eq(-4,true)" />
     <setting label="32018" id="kodi_language" type="bool" default="false" />
     <setting label="32050" id="language_exceptions" type="text" subsetting="true" enable="eq(-1,true)" />
