@@ -43,6 +43,8 @@ timeout = get_setting("timeout", int)
 debug_parser = get_setting("use_debug_parser", bool)
 max_results = get_setting('max_results', int)
 sort_by = get_setting('sort_by', int)
+use_additional_filters = get_setting('additional_filters', bool)
+use_block = get_setting('block', basestring).strip().lower()
 
 special_chars = "()\"':.[]<>/\\?"
 elementum_timeout = 0
@@ -216,24 +218,33 @@ def got_results(provider, results):
     # 2 "Size"
     # 3 "Balanced"
 
-    #if not sort_by or sort_by == 3 or sort_by > 3:
-    #    # TODO: think of something interesting to balance sort results
-    #    sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_balance'])), reverse=True)
-    if sort_by == 0: # rajada: assert sort by resolution
+    log.debug("[%s][got_results()] default %s results: [%s]" % (provider, len(results), results))
+
+    if not sort_by or sort_by == 3 or sort_by > 3:
+        # TODO: think of something interesting to balance sort results
+        #sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_balance'])), reverse=True)
+        sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_resolution'])), reverse=True) # rajada: assert sort by resolution
+    if sort_by == 0:
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['sort_resolution'])), reverse=True)
     elif sort_by == 1:
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['seeds'])), reverse=True)
     elif sort_by == 2:
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['size'])), reverse=True)
 
+    log.debug("[%s][got_results()] sorted %s results before cut: [%s]" % (provider, len(sorted_results), sorted_results))
+
     if len(sorted_results) > max_results:
         sorted_results = sorted_results[:max_results]
+
+    log.debug("[%s][got_results()] sorted %s results after cut: [%s]" % (provider, len(sorted_results), sorted_results))
 
     log.info("[%s] >> %s returned %2d results in %.1f seconds%s" % (
         provider, definition['name'].rjust(longest), len(results), round(time.time() - request_time, 2),
         (", sending %d best ones" % max_results) if len(results) > max_results else ""))
 
-    provider_results.extend(sorted_results)
+    #provider_results.extend(sorted_results)
+    provider_results.extend(results[:max_results] if len(results) > max_results else results) # rajada: send results at default order
+
     available_providers -= 1
     if definition['name'] in provider_names:
         provider_names.remove(definition['name'])
@@ -303,13 +314,15 @@ def extract_torrents(provider, client):
             uri = torrent.split('|')  # Split cookies for private trackers
             subclient.open(py2_encode(uri[0]), headers=headers)
 
+            my_torrent_var = None # rajada
+
             if 'bittorrent' in subclient.headers.get('content-type', ''):
                 log.debug('[%s] bittorrent content-type for %s' % (provider, repr(torrent)))
                 if len(uri) > 1:  # Stick back cookies if needed
                     torrent = '%s|%s' % (torrent, uri[1])
             else:
                 try:
-                    torrent = extract_from_page(provider, subclient.content)
+                    torrent, my_torrent_var = extract_from_page(provider, subclient.content), extract_from_page(provider, subclient.content)
                     #if torrent and not torrent.startswith('magnet') and len(uri) > 1:  # Stick back cookies if needed
                     #    torrent = '%s|%s' % (torrent, uri[1])
                 except Exception as e:
@@ -317,21 +330,25 @@ def extract_torrents(provider, client):
                     log.error("[%s] Subpage extraction for %s failed with: %s" % (provider, repr(uri[0]), repr(e)))
                     map(log.debug, traceback.format_exc().split("\n"))
 
-            log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent))
+            #log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent))
             torrent_counter = 1
             link_prefix = "[COLOR blue](Link " + str(torrent_counter) + ")[/COLOR] "
             t_name = "[COLOR blue](T)[/COLOR] "
             s_name = "[COLOR blue](S)[/COLOR] "
-            for torrent_item in torrent: # rajada: loop over all magnets
-                ret = None
-                magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
-                if len(magnet_name) >= 1: ret = (id, t_name + unquote(magnet_name[0]), info_hash, torrent_item, size, seeds, peers)
-                else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers)
-                # Cache this subpage result if another query would need to request same url.
-                provider_cache[uri[0]] = torrent_item
-                q.put_nowait(ret)
-                torrent_counter += 1
-            torrent_counter = 1
+            if my_torrent_var: # rajada: check is there any result
+                for torrent_item in my_torrent_var: # rajada: loop over all magnets
+                    ret = None
+                    magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
+                    infohash_value = re.findall(r'(magnet:\?xt=urn:btih:)[a-zA-Z0-9]{40}', torrent_item)[0][-40:]
+                    if len(magnet_name) >= 1: ret = (id, t_name + unquote(magnet_name[0]), info_hash, torrent_item, size, seeds, peers)
+                    else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers)
+                    # Cache this subpage result if another query would need to request same url.
+                    provider_cache[uri[0]] = torrent_item
+                    q.put_nowait(ret)
+                    torrent_counter += 1
+                    log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent_item))
+                torrent_counter = 1
+            #xbmc.log('Magnet links for %s: %s' % (provider, my_torrent_var), level=xbmc.LOGINFO) #ref: https://kodi.wiki/view/Log_file/Advanced
 
     if not dom:
         if debug_parser:
@@ -357,6 +374,19 @@ def extract_torrents(provider, client):
             log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'row', row_search, item_str.replace('\r', '').replace('\n', '')))
 
         if not item:
+            continue
+
+        # rajada: Check blocked terms at all result names (instead only at release, avoid subpage loading of spam posts)
+        name = eval(name_search) if name_search else ""
+        must_continue = None
+        blocked_terms = []
+        if use_additional_filters:
+            if use_block:
+                block = re.split(r',\s?', use_block)
+                blocked_terms.extend(block)
+                must_continue = any(x in name.lower() for x in blocked_terms)
+        if must_continue:
+            log.debug("[%s] Parser debug | Bloqueado devido blocked terms: [%s]" % (provider, name.replace('\r', '').replace('\n', '')))
             continue
 
         try:
