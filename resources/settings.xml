@@ -12,7 +12,7 @@
     <setting id="tor_dns_help" label="32141" type="text" enable="false" subsetting="true" />
     <setting label="32033" id="min_size" type="slider" option="float" range="0,0.25,100" default="0" />
     <setting label="32034" id="max_size" type="slider" option="float" range="1,0.25,500" default="100" />
-    <setting label="32040" id="max_results" type="slider" default="5" option="int" range="1,1,25" />
+    <setting label="32040" id="max_results" type="slider" default="10" option="int" range="1,1,25" />
     <setting label="32124" id="auto_timeout" type="bool" default="true" />
     <setting label="32070" id="timeout" type="slider" default="25" option="int" range="3,1,180" enable="eq(-1,false)" />
     <setting label="32071" id="timeout_help" type="text" enable="false" subsetting="true" />
@@ -137,7 +137,7 @@
       <setting id="torrentfunk_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfunk_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="false" />
+    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="true" />
       <setting id="torrentgalaxy_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentgalaxy_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -215,6 +215,38 @@
 	<setting label="[B]torrentdofilmes.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdofilmes.com" type="bool" default="true" />
       <setting id="torrentdofilmes.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdofilmes.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]torrentdosfilmes.site[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.site" type="bool" default="true" />
+      <setting id="torrentdosfilmes.site_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="torrentdosfilmes.site_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]bludvfilmes.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_bludvfilmes.net" type="bool" default="true" />
+      <setting id="bludvfilmes.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="bludvfilmes.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]comandotorrents3.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrents3.com" type="bool" default="true" />
+      <setting id="comandotorrents3.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="comandotorrents3.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]comandohds.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandohds.com" type="bool" default="true" />
+      <setting id="comandohds.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="comandohds.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]torrentdosfilmes.se[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.se" type="bool" default="true" />
+      <setting id="torrentdosfilmes.se_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="torrentdosfilmes.se_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]netjmx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_netjmx.com" type="bool" default="true" />
+      <setting id="netjmx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="netjmx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]baixartorrents.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_baixartorrents.net" type="bool" default="false" />
+      <setting id="baixartorrents.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="baixartorrents.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]4kfilmeshd.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_4kfilmeshd.net" type="bool" default="true" />
+      <setting id="4kfilmeshd.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="4kfilmeshd.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
 	<!-- Providers-Brazil-End -->
 
@@ -448,7 +480,7 @@
     <setting label="[B]Screener/SCR[/B]" id="filter_screener" type="bool" default="true" />
     <setting label="[B]3D[/B]" id="filter_3d" type="bool" default="false" />
     <setting label="[B]TeleSync/TS/TC[/B]" id="filter_telesync" type="bool" default="false" />
-    <setting label="[B]Cam/HDCam[/B]" id="filter_cam" type="bool" default="false" />
+    <setting label="[B]Cam/HDCam[/B]" id="filter_cam" type="bool" default="true" />
     <setting label="[B]TVRip/SATRip[/B]" id="filter_tvrip" type="bool" default="true" />
     <setting label="[B]IPTVRip[/B]" id="filter_iptvrip" type="bool" default="true" />
     <setting label="[B]VHSRip[/B]" id="filter_vhsrip" type="bool" default="true" />
