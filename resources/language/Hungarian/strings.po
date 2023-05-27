@@ -376,3 +376,23 @@ msgstr ""
 msgctxt "#32141"
 msgid "First set SOCKS both in Burst&Elementum or proxy http via Elementum"
 msgstr ""
+
+msgctxt "#32199"
+msgid "Brazilian trackers"
+msgstr ""
+
+msgctxt "#32200"
+msgid "Similarity Filter Weights"
+msgstr ""
+
+msgctxt "#32201"
+msgid "Minimum"
+msgstr ""
+
+msgctxt "#32202"
+msgid "Acceptable"
+msgstr ""
+
+msgctxt "#32203"
+msgid "Good"
+msgstr ""

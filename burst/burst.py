@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Burst processing thread
+Rajada processing thread
 """
 
 from __future__ import unicode_literals
 from future.utils import PY3, iteritems
+from difflib import SequenceMatcher
 
+import traceback
 import re
 import json
 import time
@@ -29,8 +31,9 @@ from .provider import process
 from .providers.definitions import definitions, longest
 from .filtering import apply_filters, Filtering, cleanup_results
 from .client import USER_AGENT, Client
-from .utils import ADDON_ICON, notify, translation, sizeof, get_icon_path, get_enabled_providers, get_alias
+from .utils import ADDON_ICON, notify, translation, sizeof, get_icon_path, get_enabled_providers, get_alias, get_float
 
+query_value_from_provider = None
 provider_names = []
 provider_results = []
 provider_cache = {}
@@ -44,7 +47,18 @@ debug_parser = get_setting("use_debug_parser", bool)
 max_results = get_setting('max_results', int)
 sort_by = get_setting('sort_by', int)
 use_additional_filters = get_setting('additional_filters', bool)
-use_block = get_setting('block', basestring).strip().lower()
+use_block = get_setting('block', str).strip().lower()
+
+use_similarity_filter = get_setting("use_similarity_filter", bool)
+sim_filter_minimum = get_float(get_setting('sim_filter_minimum'))
+sim_filter_acceptable = get_float(get_setting('sim_filter_acceptable'))
+sim_filter_good = get_float(get_setting('sim_filter_good'))
+
+c_lime = "[COLOR lime]"
+c_green = "[COLOR mediumseagreen]"
+c_crimson = "[COLOR indianred]" # crimson
+c_white = "[COLOR white]"
+c_close = "[/COLOR]"
 
 special_chars = "()\"':.[]<>/\\?"
 elementum_timeout = 0
@@ -119,12 +133,14 @@ def search(payload, method="general"):
     if 'skip_auth' not in payload:
         payload['skip_auth'] = False
 
+    global query_value_from_provider
     global request_time
     global provider_cache
     global provider_names
     global provider_results
     global available_providers
 
+    query_value_from_provider = None
     provider_cache = {}
     provider_names = []
     provider_results = []
@@ -158,6 +174,17 @@ def search(payload, method="general"):
         log.debug("Translated titles from Elementum: %s" % (repr(payload['titles'])))
 
     providers_time = time.time()
+
+    # rajada: copy processing from provider::process(), just to get updated query at global level (for similarity filter), using one provider only
+    provider_index = len(providers) - 1 # assert is brazilian
+    filterToGetQuery = Filtering()
+    filterToGetQuery.define_languages(providers[provider_index])
+    filterToGetQuery.use_general(providers[provider_index], payload) if method == "general" else filterToGetQuery.use_movie(providers[provider_index], payload) # {title} or {title} {year}
+    definition = definitions[providers[provider_index]]
+    definition = get_alias(definition, get_setting("%s_alias" % providers[provider_index]))
+    for query, extra, priority in zip(filterToGetQuery.queries, filterToGetQuery.extras, filterToGetQuery.queries_priorities):
+        query_value_from_provider = filterToGetQuery.process_keywords(providers[provider_index], query, definition)
+    log.debug("burst::search - updated query: %s | using provider [%s]" % (query_value_from_provider, providers[provider_index]))
 
     for provider in providers:
         available_providers += 1
@@ -218,7 +245,7 @@ def got_results(provider, results):
     # 2 "Size"
     # 3 "Balanced"
 
-    log.debug("[%s][got_results()] default %s results: [%s]" % (provider, len(results), results))
+    #log.debug("[%s][got_results()] default %s results: [%s]" % (provider, len(results), results))
 
     if not sort_by or sort_by == 3 or sort_by > 3:
         # TODO: think of something interesting to balance sort results
@@ -231,20 +258,21 @@ def got_results(provider, results):
     elif sort_by == 2:
         sorted_results = sorted(results, key=lambda r: (nonesorter(r['size'])), reverse=True)
 
-    log.debug("[%s][got_results()] sorted %s results before cut: [%s]" % (provider, len(sorted_results), sorted_results))
+    #log.debug("[%s][got_results()] sorted %s results before cut: [%s]" % (provider, len(sorted_results), sorted_results))
 
     if len(sorted_results) > max_results:
         sorted_results = sorted_results[:max_results]
 
-    log.debug("[%s][got_results()] sorted %s results after cut: [%s]" % (provider, len(sorted_results), sorted_results))
+    #log.debug("[%s][got_results()] sorted %s results after cut: [%s]" % (provider, len(sorted_results), sorted_results))
 
     log.info("[%s] >> %s returned %2d results in %.1f seconds%s" % (
         provider, definition['name'].rjust(longest), len(results), round(time.time() - request_time, 2),
         (", sending %d best ones" % max_results) if len(results) > max_results else ""))
 
     #provider_results.extend(sorted_results)
-    provider_results.extend(results[:max_results] if len(results) > max_results else results) # rajada: send results at default order
-
+    rcvd_results = results[:max_results] if len(results) > max_results else results
+    provider_results.extend(rcvd_results.reverse()) # rajada: send results at default order
+    
     available_providers -= 1
     if definition['name'] in provider_names:
         provider_names.remove(definition['name'])
@@ -263,6 +291,8 @@ def extract_torrents(provider, client):
     definition = definitions[provider]
     definition = get_alias(definition, get_setting("%s_alias" % provider))
     log.debug("[%s] Extracting torrents from %s using definitions: %s" % (provider, provider, repr(definition)))
+
+    global query_value_from_provider
 
     if not client.content:
         if debug_parser:
@@ -322,7 +352,8 @@ def extract_torrents(provider, client):
                     torrent = '%s|%s' % (torrent, uri[1])
             else:
                 try:
-                    torrent, my_torrent_var = extract_from_page(provider, subclient.content), extract_from_page(provider, subclient.content)
+                    torrent = extract_from_page(provider, subclient.content)
+                    my_torrent_var = torrent
                     #if torrent and not torrent.startswith('magnet') and len(uri) > 1:  # Stick back cookies if needed
                     #    torrent = '%s|%s' % (torrent, uri[1])
                 except Exception as e:
@@ -335,18 +366,19 @@ def extract_torrents(provider, client):
             link_prefix = "[COLOR blue](Link " + str(torrent_counter) + ")[/COLOR] "
             t_name = "[COLOR blue](T)[/COLOR] "
             s_name = "[COLOR blue](S)[/COLOR] "
-            if my_torrent_var: # rajada: check is there any result
+            similarity_color = (c_lime if c_lime in name else (c_green if c_green in name else (c_crimson if c_crimson in name else c_white)))
+            if my_torrent_var: # rajada: check if is there any result
                 for torrent_item in my_torrent_var: # rajada: loop over all magnets
                     ret = None
                     magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
-                    infohash_value = re.findall(r'(magnet:\?xt=urn:btih:)[a-zA-Z0-9]{40}', torrent_item)[0][-40:]
-                    if len(magnet_name) >= 1: ret = (id, t_name + unquote(magnet_name[0]), info_hash, torrent_item, size, seeds, peers)
-                    else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers)
+                    #infohash_value = re.findall(r'(magnet:\?xt=urn:btih:)[a-zA-Z0-9]{40}', torrent_item)[0][-40:] # 25.05.23 raising list index out of range for some torrents
+                    if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, info_hash, torrent_item, size, seeds, peers)
+                    else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers) # name already come with color tag
                     # Cache this subpage result if another query would need to request same url.
                     provider_cache[uri[0]] = torrent_item
                     q.put_nowait(ret)
                     torrent_counter += 1
-                    log.debug("[%s] Subpage torrent for %s: %s" % (provider, repr(uri[0]), torrent_item))
+                    log.debug("[%s] Subpage torrent with name (%s) for %s: %s" % (provider, ret[1], repr(uri[0]), torrent_item))
                 torrent_counter = 1
             #xbmc.log('Magnet links for %s: %s' % (provider, my_torrent_var), level=xbmc.LOGINFO) #ref: https://kodi.wiki/view/Log_file/Advanced
 
@@ -376,8 +408,10 @@ def extract_torrents(provider, client):
         if not item:
             continue
 
-        # rajada: Check blocked terms at all result names (instead only at release, avoid subpage loading of spam posts)
+        # rajada: pre process name
         name = eval(name_search) if name_search else ""
+
+        # rajada: Check blocked terms at all result names (instead only at release, avoid subpage loading of spam posts)
         must_continue = None
         blocked_terms = []
         if use_additional_filters:
@@ -389,9 +423,50 @@ def extract_torrents(provider, client):
             log.debug("[%s] Parser debug | Bloqueado devido blocked terms: [%s]" % (provider, name.replace('\r', '').replace('\n', '')))
             continue
 
+        # rajada: Check name similarity with query (due to spam incoming from search mechanisms)
+        #similarity_value = 0 # declared here to avoid 'referenced before assignment' error
+        #if use_similarity_filter:
+        log.debug("[%s] Parser debug | busca com similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
+        def similar(a, b):
+            return SequenceMatcher(None, a, b).ratio()
+        def clean_words(querywords): # ToDO: put these words at settings.xml
+            words_to_remove = ['4k', '(4k)', 'dual', 'áudio', 'dublado', '720p', '1080p', '5.1', '7.1', 'web-dl', 'webdl', '2160p', 'download',
+            'hd', 'bluray', 'hdcam', '3d', 'hsbs', 'torrent', 'blu-ray', 'rip', 'legendado', 'legenda', '/', '|', '-', '–', 'bd-r', '720p/1080p', 'bdrip', '(Blu-Ray)',
+            '720p/1080p/4K', 'novela', 'seriado', 'full', 'hdr', 'h264', 'x264', 'sdr', 'x265', 'h265', '[Dublado', 'Portugues]', 'hdtc', 'ac-3', '720p/1080p/4k',
+            'webrip', '10bit', 'hdr10plus', 'atmos', 'pt', 'br', '(bluray)', 'aac', 'ddp5', 'dd2', 'camrip', 'avc', 'dts-h', 'dts', '1080p/4k', 'audio',
+            '5.1ch', 'remux', 'hevc', 'dts-hd', 'truehd', 'ma', '[1080p]', '[720p]', '[2160p]', 'hdts', 'amzn', 'dublagem',
+            'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
+			'----------abaixo-stopwords-dos-releasers----------',
+            'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent', 'www']
+            resultwords  = [word for word in querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").split() if not word.lower() in words_to_remove]
+            return ' '.join(resultwords)
+        if query_value_from_provider: # check if query is None
+            log.debug("[%s] Parser debug | (similarity) New query_value_from_provider: %s" % (provider, query_value_from_provider))
+        else: log.debug("[%s] Parser debug | (similarity) No query_value_from_provider" % (provider))
+        
+        #if query_value_from_provider:
+        similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(name).lower())
+        expected_value = 0.34
+        if similarity_value >= expected_value:
+            log.debug("[%s] Parser debug | Aceito pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+        else:
+            log.debug("[%s] Parser debug | Bloqueado pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+            continue
+        #else: log.debug("[%s] Parser debug | Aceito pelo similarity filter por falta de query: %s" % (provider, clean_words(name)))
+        #else: log.debug("[%s] Parser debug | busca sem similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
+
+        name_color = (c_lime if similarity_value >= 0.68 else (c_green if similarity_value >= 0.42 else (c_crimson if similarity_value >= 0.34 else c_white)))
+        name = name_color + name + c_close # this color will only work if (S)
+
         try:
             id = eval(id_search) if id_search else ""
-            name = eval(name_search) if name_search else ""
+            
+            # rajada: colored name according to similarity value
+            #if use_similarity_filter:
+            #log.debug("[%s] Parser debug | somente pesos %s | %s | %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good))
+            name = name
+            log.debug("[%s] Parser debug | Nome com similaridade: %s" % (provider, name))
+            
             torrent = eval(torrent_search) if torrent_search else ""
             size = eval(size_search) if size_search else ""
             seeds = eval(seeds_search) if seeds_search else ""
@@ -462,7 +537,7 @@ def extract_torrents(provider, client):
             else:
                 yield (id, name, info_hash, torrent, size, seeds, peers)
         except Exception as e:
-            log.error("[%s] Got an exception while parsing results: %s" % (provider, repr(e)))
+            log.error("[%s] Got an exception while parsing results: %s | Stack %s" % (provider, repr(e), traceback.format_exc()))
 
     if needs_subpage:
         log.debug("[%s] Starting subpage threads..." % provider)
@@ -682,6 +757,8 @@ def run_provider(provider, payload, method, start_time, timeout):
         results = process(provider=provider, generator=extract_from_api, filtering=filterInstance, has_special=payload['has_special'], skip_auth=payload['skip_auth'], start_time=start_time, timeout=timeout)
     else:
         results = process(provider=provider, generator=extract_torrents, filtering=filterInstance, has_special=payload['has_special'], skip_auth=payload['skip_auth'], start_time=start_time, timeout=timeout)
+
+    #log.debug("[%s] run_provider() | Query: %s" % (provider, any_var_name)) # rajada: get query here is ok, but we have problem with multiple tasks writing it to global var (race condition)
 
     # Cleanup results from duplcates before limiting each provider's results.
     results = cleanup_results(results)

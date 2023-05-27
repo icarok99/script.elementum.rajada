@@ -137,7 +137,7 @@
       <setting id="torrentfunk_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfunk_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="true" />
+    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="false" />
       <setting id="torrentgalaxy_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentgalaxy_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -161,7 +161,9 @@
       <setting id="zooqle_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="zooqle_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
     <!-- Providers-Public-2-End -->
+  <!-- </category> -->
 
+  <!-- <category label="32199"> -->
 	<!-- Providers-Brazil-Begin -->
 
 	<setting label="[B]cinetorrent.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_cinetorrent.com.br" type="bool" default="true" />
@@ -196,7 +198,7 @@
       <setting id="meufilmestorrenthd.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="meufilmestorrenthd.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]playfilmetorrent.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_playfilmetorrent.net" type="bool" default="true" />
+	<setting label="[B]playfilmetorrent.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_playfilmetorrent.net" type="bool" default="false" />
       <setting id="playfilmetorrent.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="playfilmetorrent.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -249,7 +251,6 @@
       <setting id="4kfilmeshd.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
 	<!-- Providers-Brazil-End -->
-
   </category> 
 
   <category label="32130">
@@ -478,8 +479,8 @@
     <setting label="[B]DVDRip[/B]" id="filter_dvd" type="bool" default="true" />
     <setting label="[B]DVDScr[/B]" id="filter_dvdscr" type="bool" default="true" />
     <setting label="[B]Screener/SCR[/B]" id="filter_screener" type="bool" default="true" />
-    <setting label="[B]3D[/B]" id="filter_3d" type="bool" default="false" />
-    <setting label="[B]TeleSync/TS/TC[/B]" id="filter_telesync" type="bool" default="false" />
+    <setting label="[B]3D[/B]" id="filter_3d" type="bool" default="true" />
+    <setting label="[B]TeleSync/TS/TC[/B]" id="filter_telesync" type="bool" default="true" />
     <setting label="[B]Cam/HDCam[/B]" id="filter_cam" type="bool" default="true" />
     <setting label="[B]TVRip/SATRip[/B]" id="filter_tvrip" type="bool" default="true" />
     <setting label="[B]IPTVRip[/B]" id="filter_iptvrip" type="bool" default="true" />
@@ -528,4 +529,13 @@
     <setting label="32085" type="lsep" />
     <setting label="32086" id="use_debug_parser" type="bool" default="true" />
   </category>
+
+  <!-- Similarity Filter Weights -->
+  <category label="32200">
+    <setting label="32096" id="use_similarity_filter" type="bool" default="true" />
+    <setting label="32201" id="sim_filter_minimum" type="slider" option="float" range="0,0.02,1" default="0.34" />
+    <setting label="32202" id="sim_filter_acceptable" type="slider" option="float" range="0,0.02,1" default="0.42" />
+    <setting label="32203" id="sim_filter_good" type="slider" option="float" range="0,0.02,1" default="0.68" />
+  </category>
+
 </settings>
