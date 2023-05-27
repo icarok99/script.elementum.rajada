@@ -271,7 +271,7 @@ def got_results(provider, results):
 
     #provider_results.extend(sorted_results)
     rcvd_results = results[:max_results] if len(results) > max_results else results
-    provider_results.extend(rcvd_results.reverse()) # rajada: send results at default order
+    provider_results.extend(rcvd_results) # rajada: send results at default order
     
     available_providers -= 1
     if definition['name'] in provider_names:
@@ -371,9 +371,10 @@ def extract_torrents(provider, client):
                 for torrent_item in my_torrent_var: # rajada: loop over all magnets
                     ret = None
                     magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
-                    #infohash_value = re.findall(r'(magnet:\?xt=urn:btih:)[a-zA-Z0-9]{40}', torrent_item)[0][-40:] # 25.05.23 raising list index out of range for some torrents
-                    if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, info_hash, torrent_item, size, seeds, peers)
-                    else: ret = (id, s_name + name, info_hash, torrent_item, size, seeds, peers) # name already come with color tag
+                    infohash_regex = re.findall(r'urn:btih:([a-zA-Z0-9]+).*', torrent_item)
+                    infohash_value = infohash_regex[0] if infohash_regex else info_hash
+                    if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, infohash_value, torrent_item, size, seeds, peers)
+                    else: ret = (id, s_name + name, infohash_value, torrent_item, size, seeds, peers) # name already come with color tag
                     # Cache this subpage result if another query would need to request same url.
                     provider_cache[uri[0]] = torrent_item
                     q.put_nowait(ret)
@@ -424,9 +425,6 @@ def extract_torrents(provider, client):
             continue
 
         # rajada: Check name similarity with query (due to spam incoming from search mechanisms)
-        #similarity_value = 0 # declared here to avoid 'referenced before assignment' error
-        #if use_similarity_filter:
-        log.debug("[%s] Parser debug | busca com similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
         def similar(a, b):
             return SequenceMatcher(None, a, b).ratio()
         def clean_words(querywords): # ToDO: put these words at settings.xml
@@ -438,35 +436,34 @@ def extract_torrents(provider, client):
             'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
 			'----------abaixo-stopwords-dos-releasers----------',
             'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent', 'www']
-            resultwords  = [word for word in querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").split() if not word.lower() in words_to_remove]
+            treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
+            resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
             return ' '.join(resultwords)
+        
         if query_value_from_provider: # check if query is None
             log.debug("[%s] Parser debug | (similarity) New query_value_from_provider: %s" % (provider, query_value_from_provider))
         else: log.debug("[%s] Parser debug | (similarity) No query_value_from_provider" % (provider))
         
-        #if query_value_from_provider:
-        similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(name).lower())
-        expected_value = 0.34
-        if similarity_value >= expected_value:
-            log.debug("[%s] Parser debug | Aceito pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
-        else:
-            log.debug("[%s] Parser debug | Bloqueado pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
-            continue
-        #else: log.debug("[%s] Parser debug | Aceito pelo similarity filter por falta de query: %s" % (provider, clean_words(name)))
-        #else: log.debug("[%s] Parser debug | busca sem similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
+        similarity_value = 0 # declared here to avoid 'referenced before assignment' error
+        if use_similarity_filter:
+            log.debug("[%s] Parser debug | busca com similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
+        
+            similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(name).lower())
+            expected_value = sim_filter_minimum
+            if similarity_value >= expected_value:
+                log.debug("[%s] Parser debug | Aceito pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+            else:
+                log.debug("[%s] Parser debug | Bloqueado pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+                continue
+        else: log.debug("[%s] Parser debug | busca sem similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
 
-        name_color = (c_lime if similarity_value >= 0.68 else (c_green if similarity_value >= 0.42 else (c_crimson if similarity_value >= 0.34 else c_white)))
-        name = name_color + name + c_close # this color will only work if (S)
+        name_color = (c_lime if similarity_value >= sim_filter_good else (c_green if similarity_value >= sim_filter_acceptable else (c_crimson if similarity_value >= sim_filter_minimum else c_white)))
+        name = name_color + name + c_close # this color will only work if (S), otherwise need check at extract_subpage method
+        log.debug("[%s] Parser debug | Nome com similaridade: %s" % (provider, name))
 
         try:
             id = eval(id_search) if id_search else ""
-            
             # rajada: colored name according to similarity value
-            #if use_similarity_filter:
-            #log.debug("[%s] Parser debug | somente pesos %s | %s | %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good))
-            name = name
-            log.debug("[%s] Parser debug | Nome com similaridade: %s" % (provider, name))
-            
             torrent = eval(torrent_search) if torrent_search else ""
             size = eval(size_search) if size_search else ""
             seeds = eval(seeds_search) if seeds_search else ""

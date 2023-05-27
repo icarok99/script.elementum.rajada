@@ -161,9 +161,9 @@
       <setting id="zooqle_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="zooqle_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
     <!-- Providers-Public-2-End -->
-  <!-- </category> -->
+  </category>
 
-  <!-- <category label="32199"> -->
+  <category label="32199">
 	<!-- Providers-Brazil-Begin -->
 
 	<setting label="[B]cinetorrent.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_cinetorrent.com.br" type="bool" default="true" />
@@ -533,9 +533,9 @@
   <!-- Similarity Filter Weights -->
   <category label="32200">
     <setting label="32096" id="use_similarity_filter" type="bool" default="true" />
-    <setting label="32201" id="sim_filter_minimum" type="slider" option="float" range="0,0.02,1" default="0.34" />
-    <setting label="32202" id="sim_filter_acceptable" type="slider" option="float" range="0,0.02,1" default="0.42" />
-    <setting label="32203" id="sim_filter_good" type="slider" option="float" range="0,0.02,1" default="0.68" />
+    <setting label="32201" id="sim_filter_minimum" type="slider" option="float" range="0,0.02,1" default="0.34" subsetting="true" enable="eq(-1,true)" />
+    <setting label="32202" id="sim_filter_acceptable" type="slider" option="float" range="0,0.02,1" default="0.42" subsetting="true" enable="eq(-2,true)" />
+    <setting label="32203" id="sim_filter_good" type="slider" option="float" range="0,0.02,1" default="0.68" subsetting="true" enable="eq(-3,true)" />
   </category>
 
 </settings>
