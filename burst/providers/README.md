@@ -18,12 +18,12 @@
 | meufilmestorrenthd.net  | ?s=QUERY                                      | Y       | 12.05.23 - Ok                 | Y             |
 | nerdfilmes.com.br       | ?s=QUERY                                      | Y       | 12.05.23 - Ok                 | Y             |
 | netjmx.com              | ?s=QUERY                                      | Y       | 22.05.23 - Ok                 | Y             |
-| playfilmetorrent.net    | ?s=QUERY                                      | ?       | 22.05.23 - Fail (maintenance) | Y             |
+| playfilmetorrent.net    | ?s=QUERY                                      | ?       | 26.05.23 - Fail (maintenance) | N             |
 | supertorrents.net       | ?s=QUERY                                      | ?       | 22.05.23 - Fail (error 403)   | N (not added) |
 | torrentdofilmes.com     | ?s=QUERY                                      | Y       | 12.05.23 - Ok                 | Y             |
 | torrentdosfilmes.se     | ?s=QUERY                                      | Y       | 22.05.23 - Ok                 | Y             |
 | torrentdosfilmes.site   | ?s=QUERY                                      | Y       | 22.05.23 - Ok                 | Y             |
 | torrentdosfilmeshd1.net | ?s=QUERY                                      | Y       | 12.05.23 - Ok                 | Y             |
-| torrentgalaxy.to        | torrents.php?search=QUERY [Dublado Portugues] | N       | 22.05.23 - Ok                 | Y             |
+| torrentgalaxy.to        | torrents.php?search=QUERY [Dublado Portugues] | N       | 22.05.23 - Ok                 | N (1win dub)  |
 | wolverdonfilme.net      | ?s=QUERY                                      | Y       | 12.05.23 - Ok                 | Y             |
 
