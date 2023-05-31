@@ -10,7 +10,7 @@ Uma rajada de provedores.
 - Provedores brasileiros e estrangeiros
 - Fácil configuração de provedores e filtros
 - Compatível com Elementum
-- Utilizável em outros addons através do menu de contexto do Elementum
+- Utilizável em outros addons através do [menu de contexto](https://github.com/addon-rajada/context.elementum) do Elementum
 
 ---
 
@@ -30,11 +30,12 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 
 | **Kodi** | **Elementum** | **Status Repo** | **Status Rajada** |
 |-|-|-|-|
-| 18.6 | 0.1.87 x86 | Ok | Fail (unicode string) |
-| 18.9 | 0.1.87 arm | Ok | ? |
-| 19.5 | 0.1.87 arm | ? | ? |
+| 17.3 | 0.1.87 x86 | ? | ? |
+| 18.6 | 0.1.87 x86 | Ok | Ok |
+| 18.9 | 0.1.87 arm | Ok | Ok |
+| 19.5 | 0.1.87 arm | Ok | Ok |
 | 20.1 | 0.1.87 x86 | Ok | Ok |
-| 21.0 | 0.1.87 x86 | ? | ? |
+| 21.0 ALPHA 1 | 0.1.87 x86 | Fail | Fail |
 
 ---
 
@@ -50,13 +51,15 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 **0.2**
 
 - adicionado provedores
-- obtendo nome a partir do link magnético
+- obtendo nome e hash a partir do link magnético
 - melhorado filtro de termos bloqueados para evitar carregamento inútil da subpage
 - adicionado filtro de similaridade de strings
+- tamanho do addon reduzido
 
 **0.1**
 
-- versão inicial
+- provedores brasileiros
+- parsing de todos os links magnéticos da subpage
 
 ---
 

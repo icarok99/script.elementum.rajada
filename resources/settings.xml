@@ -520,7 +520,7 @@
 	<!--
 		Blocking ads, recommended movie lists and other unuseful results
 	-->
-    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH" subsetting="true" enable="eq(-3,true)" />
+    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH, JOGOS PC GAMER" subsetting="true" enable="eq(-3,true)" />
     <setting label="32017" id="require" type="text" default="" subsetting="true" enable="eq(-4,true)" />
     <setting label="32018" id="kodi_language" type="bool" default="false" />
     <setting label="32050" id="language_exceptions" type="text" subsetting="true" enable="eq(-1,true)" />
