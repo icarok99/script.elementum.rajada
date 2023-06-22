@@ -18,6 +18,11 @@
     <setting label="32071" id="timeout_help" type="text" enable="false" subsetting="true" />
     <setting label="32119" id="sort_by" type="enum" lvalues="32120|32121|32122|32123" default="0" />
     <setting label="32132" id="filter_quotes" type="bool" default="false" />
+
+	<setting label="32220" type="lsep" />
+	<setting label="32221" id="show_providers_name" type="bool" default="false" />
+	<setting label="32222" id="check_seeders_peers" type="bool" default="true" />
+
   </category>
 
   <!-- Providers -->

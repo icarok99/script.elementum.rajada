@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Burst filtering class and methods
+Rajada filtering class and methods
 """
 
 from __future__ import unicode_literals
@@ -12,7 +12,7 @@ import hashlib
 from elementum.provider import log, get_setting
 from .normalize import normalize_string, remove_accents
 from .providers.definitions import definitions
-from .utils import Magnet, get_int, get_float, clean_number, size_int, get_alias
+from .utils import Magnet, get_int, get_float, clean_number, size_int, get_alias, translation
 if PY3:
     import html
     unicode = str
@@ -38,6 +38,7 @@ use_min_size = get_setting('min_size')
 use_max_size = get_setting('max_size')
 use_filter_quotes = get_setting("filter_quotes", bool)
 use_allow_noseeds = get_setting('allow_noseeds', bool)
+show_providers_name = get_setting("show_providers_name", bool)
 
 class Filtering:
     """
@@ -821,6 +822,8 @@ def cleanup_results(results_list):
         #     map(log.debug, traceback.format_exc().split("\n"))
 
         if not any(existing == hash_ for existing in hashes):
+            if not show_providers_name and "FFF14E13" in result['provider']: # rajada: remove provider name if brazilian (check by name color at json file)
+                result['provider'] = '[COLOR FFF14E13]' + translation(32256) + '[/COLOR]'
             filtered_list.append(result)
             hashes.append(hash_)
         else:

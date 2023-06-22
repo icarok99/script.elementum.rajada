@@ -397,3 +397,47 @@ msgstr ""
 msgctxt "#32203"
 msgid "Good"
 msgstr ""
+
+msgctxt "#32220"
+msgid "Rajada Settings"
+msgstr ""
+
+msgctxt "#32221"
+msgid "Show brazilian providers name"
+msgstr ""
+
+msgctxt "#32222"
+msgid "Check seeders and peers (slow)"
+msgstr ""
+
+msgctxt "#32223"
+msgid "Custom elementum settings"
+msgstr ""
+
+msgctxt "#32250"
+msgid "Using sequential tracker checking"
+msgstr ""
+
+msgctxt "#32251"
+msgid "Elementum timeout set to %s seconds"
+msgstr ""
+
+msgctxt "#32252"
+msgid "Using Elementum timeout value"
+msgstr ""
+
+msgctxt "#32253"
+msgid "Using Rajada timeout value"
+msgstr ""
+
+msgctxt "#32254"
+msgid "Checking Seeders and Leechers\n%s Links Remaining"
+msgstr ""
+
+msgctxt "#32255"
+msgid "%s Links not Verified due Timeout"
+msgstr ""
+
+msgctxt "#32256"
+msgid "Brazilian Tracker"
+msgstr ""

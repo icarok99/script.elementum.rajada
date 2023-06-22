@@ -42,7 +42,7 @@ def generate_payload(provider, generator, filtering, verify_name=True, verify_si
     definition = definitions[provider]
     definition = get_alias(definition, get_setting("%s_alias" % provider))
 
-    for id, name, info_hash, uri, size, seeds, peers in generator:
+    for id, name, info_hash, uri, size, seeds, peers in generator: # ToDo: torrentgalaxy with error here, why ?
         size = clean_size(size)
         # uri, info_hash = clean_magnet(uri, info_hash)
         v_name = name if verify_name else filtering.title
