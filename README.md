@@ -30,12 +30,13 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 
 | **Kodi** | **Elementum** | **Status Repo** | **Status Rajada** |
 |-|-|-|-|
-| 17.3 | 0.1.87 x86 | ? | ? |
+| 17.6 | 0.1.87 arm | Fail | Fail |
 | 18.6 | 0.1.87 x86 | Ok | Ok |
 | 18.9 | 0.1.87 arm | Ok | Ok |
 | 19.5 | 0.1.87 arm | Ok | Ok |
 | 20.1 | 0.1.87 x86 | Ok | Ok |
-| 21.0 ALPHA 1 | 0.1.87 x86 | Fail | Fail |
+| 20.2 | 0.1.87 x86 | ? | ? |
+| 21.0 ALPHA 2 | 0.1.87 x86 | Ok | Ok |
 
 ---
 
