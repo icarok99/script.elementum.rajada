@@ -102,7 +102,7 @@
       <setting id="skytorrents_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="skytorrents_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]YTS[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_yts" type="bool" default="false" />
+    <setting label="[B]YTS[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_yts" type="bool" default="true" />
       <setting id="yts_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="yts_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -219,7 +219,7 @@
       <setting id="filmestorrents.pro_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmestorrents.pro_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]torrentdofilmes.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdofilmes.com" type="bool" default="true" />
+	<setting label="[B]torrentdofilmes.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdofilmes.com" type="bool" default="false" />
       <setting id="torrentdofilmes.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdofilmes.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -231,7 +231,7 @@
       <setting id="bludvfilmes.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="bludvfilmes.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]comandotorrents3.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrents3.com" type="bool" default="true" />
+	<setting label="[B]comandotorrents3.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrents3.com" type="bool" default="false" />
       <setting id="comandotorrents3.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="comandotorrents3.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -239,7 +239,7 @@
       <setting id="comandohds.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="comandohds.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]torrentdosfilmes.se[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.se" type="bool" default="true" />
+	<setting label="[B]torrentdosfilmes.se[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.se" type="bool" default="false" />
       <setting id="torrentdosfilmes.se_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdosfilmes.se_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
