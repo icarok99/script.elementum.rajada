@@ -13,7 +13,7 @@ import re
 import json
 import time
 from threading import Thread
-from elementum.provider import append_headers, get_setting, log
+from elementum.provider import append_headers, get_setting, log, set_setting
 if PY3:
     from queue import Queue
     from urllib.parse import urlparse
@@ -31,7 +31,8 @@ from .provider import process
 from .providers.definitions import definitions, longest
 from .filtering import apply_filters, Filtering, cleanup_results
 from .client import USER_AGENT, Client
-from .utils import ADDON_ICON, notify, translation, sizeof, get_icon_path, get_enabled_providers, get_alias, get_float
+from .utils import ADDON_ICON, notify, translation, sizeof, get_icon_path, get_enabled_providers, get_alias, get_float, get_int
+from .tracker import get_torrent_info, TR_FULL_STR
 
 query_value_from_provider = None
 provider_names = []
@@ -48,6 +49,8 @@ max_results = get_setting('max_results', int)
 sort_by = get_setting('sort_by', int)
 use_additional_filters = get_setting('additional_filters', bool)
 use_block = get_setting('block', str).strip().lower()
+check_seeders_peers = get_setting("check_seeders_peers", bool)
+use_sequential_tracker_checking = False
 
 use_similarity_filter = get_setting("use_similarity_filter", bool)
 sim_filter_minimum = get_float(get_setting('sim_filter_minimum'))
@@ -63,12 +66,36 @@ c_close = "[/COLOR]"
 special_chars = "()\"':.[]<>/\\?"
 elementum_timeout = 0
 
+try:
+	#import multiprocessing # will not work at android
+	from concurrent.futures import ThreadPoolExecutor, as_completed
+except ImportError: # rajada: if python < 3, multithread checking of tracker is not possible
+    use_sequential_tracker_checking = True
+    notify(translation(32250), ADDON_ICON)
+
 elementum_addon = xbmcaddon.Addon(id='plugin.video.elementum')
 if elementum_addon:
+    # rajada: set elementum timeout due to bad behaviour
+	# ref: https://github.com/elgatito/plugin.video.elementum/issues/414
+	# ref: https://github.com/elgatito/plugin.video.elementum/issues/675
+    if check_seeders_peers and elementum_addon.getSetting('custom_provider_timeout_enabled') == 'false':
+        elementum_custom_timeout = '70'
+        elementum_addon.setSetting('custom_provider_timeout_enabled', 'true')
+        elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
+        notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
+
+    if not check_seeders_peers and elementum_addon.getSetting('custom_provider_timeout_enabled') == 'true':
+        elementum_custom_timeout = '40'
+        elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
+
+    # in case of disabled checking and provider timeout equals false, we do nothing
+
     if elementum_addon.getSetting('custom_provider_timeout_enabled') == "true":
+        #notify(translation(32252), ADDON_ICON)
         elementum_timeout = int(elementum_addon.getSetting('custom_provider_timeout'))
     else:
-        elementum_timeout = 30
+        #notify(translation(32253), ADDON_ICON)
+        elementum_timeout = 40
     log.info("Using timeout from Elementum: %d seconds" % (elementum_timeout))
 
 # Make sure timeout is always less than the one from Elementum.
@@ -77,6 +104,9 @@ if auto_timeout:
 elif elementum_timeout > 0 and timeout > elementum_timeout - 3:
     log.info("Redefining timeout to be less than Elementum's: %d to %d seconds" % (timeout, elementum_timeout - 3))
     timeout = elementum_timeout - 3
+
+timeout_offset = int(elementum_timeout / 2) - 7 # rajada: offset to split providers/trackers checking
+new_timeout = timeout - timeout_offset if check_seeders_peers else timeout
 
 def search(payload, method="general"):
     """ Main search entrypoint
@@ -189,16 +219,16 @@ def search(payload, method="general"):
     for provider in providers:
         available_providers += 1
         provider_names.append(definitions[provider]['name'])
-        task = Thread(target=run_provider, args=(provider, payload, method, providers_time, timeout))
+        task = Thread(target=run_provider, args=(provider, payload, method, providers_time, new_timeout))
         task.start()
 
     total = float(available_providers)
 
     # Exit if all providers have returned results or timeout reached, check every 100ms
-    while time.time() - providers_time < timeout and available_providers > 0:
+    while time.time() - providers_time < new_timeout and available_providers > 0:
         timer = time.time() - providers_time
         log.debug("Timer: %ds / %ds" % (timer, timeout))
-        if timer > timeout:
+        if timer > new_timeout:
             break
         message = translation(32062) % available_providers if available_providers > 1 else translation(32063)
         if not payload['silent']:
@@ -224,7 +254,115 @@ def search(payload, method="general"):
 
     log.info("Providers returned %d results in %s seconds" % (len(filtered_results), round(time.time() - request_time, 2)))
 
+    """
+		results format
+
+		[
+			{
+				'id': ...
+				'name': ...
+				'uri': ...
+				'info_hash': ...
+				'size': ...
+				'seeds': ...
+				'peers': ...
+				'language': ...
+				'provider': ...
+				'icon': ...
+				'sort_resolution': ...
+				'sort_balance': ...
+			}
+		]
+	
+	"""
+
+    # rajada: check seeders and peers from trackers
+    p_dialog = xbmcgui.DialogProgressBG()
+    if not payload['silent'] and check_seeders_peers:
+        p_dialog.create('Elementum [COLOR FFFF6B00]Rajada[/COLOR]', translation(32061))
+    total_results = float(len(filtered_results)) # float as python 2 has precision error
+    missing_results = int(total_results)
+
+    if check_seeders_peers:
+        log.debug("Timer: %ds / %ds" % (timer, timeout))
+
+        # -> sequential version (slow) <-
+        if use_sequential_tracker_checking:
+            for r in filtered_results:
+                if 'FFF14E13' not in r['provider']: # only check links from brazilian trackers
+                    missing_results -= 1
+                    continue
+                message = translation(32254) % missing_results
+                if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
+                timer = time.time() - providers_time
+                log.debug("Timer: %ds / %ds" % (timer, timeout))
+                if timer + 4 >= timeout:
+                    log.debug("Timer reached Timeout for sequential tracker checking")
+                    break
+                result_hash, parsed_seeds, parsed_peers = get_torrent_info(r)
+                r['seeds'] = parsed_seeds if (parsed_seeds and parsed_seeds > r['seeds']) else r['seeds']
+                r['peers'] = parsed_peers if (parsed_peers and parsed_peers > r['peers']) else r['peers']
+                missing_results -= 1
+		
+		# -> parallel version with multiprocessing (android does not support multiprocessing) <-
+		# ref: https://github.com/xbmc/xbmc/issues/20031
+		# ref: https://github.com/termux/termux-app/issues/1272
+        #with multiprocessing.Pool(2 * multiprocessing.cpu_count()) as pool:
+        #    for pool_result in pool.map(get_torrent_info, filtered_results):
+        #        message = "Verificando Seeders e Leechers\n%s Links Restantes" % missing_results
+        #        if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
+        #        timer = time.time() - providers_time
+        #        log.debug("Timer: %ds / %ds" % (timer, timeout))
+        #        if timer + 4 >= timeout:
+        #            log.debug("Timer reached Timeout for tracker checking")
+        #            break
+        #        for r in filtered_results:
+        #            if r['info_hash'] == pool_result[0]: # same hash
+        #                parsed_seeds, parsed_peers = pool_result[1], pool_result[2]
+        #                r['seeds'] = parsed_seeds if (parsed_seeds and parsed_seeds > r['seeds']) else r['seeds']
+        #                r['peers'] = parsed_peers if (parsed_peers and parsed_peers > r['peers']) else r['peers']
+        #                missing_results -= 1
+
+        # -> parallel version with ThreadPool (working at android if python >= 3) <-
+        else:
+            workers = len(filtered_results) if len(filtered_results) > 0 and len(filtered_results) <= 16 else 16
+            with ThreadPoolExecutor(max_workers = workers) as executor:
+                futures = [executor.submit(get_torrent_info, torrent_obj = x) for x in filtered_results if 'FFF14E13' in x['provider']] # only check links from brazilian trackers
+                missing_results -= (missing_results - len(futures)) # remove non brazilian entries from counter
+                for f in as_completed(futures):
+                    pool_result = f.result()
+                    message = translation(32254) % missing_results
+                    if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
+                    timer = time.time() - providers_time
+                    log.debug("Timer: %ds / %ds" % (timer, timeout))
+                    if timer + 4 >= timeout:
+                        log.debug("Timer reached Timeout for ThreadPool tracker checking")
+                        break
+                    for r in filtered_results:
+                        if r['info_hash'] == pool_result[0]: # same hash
+                            parsed_seeds, parsed_peers = pool_result[1], pool_result[2]
+                            r['seeds'] = parsed_seeds if (parsed_seeds and parsed_seeds > r['seeds']) else r['seeds']
+                            r['peers'] = parsed_peers if (parsed_peers and parsed_peers > r['peers']) else r['peers']
+                            missing_results -= 1
+
+        if not payload['silent']: p_dialog.close()
+        del p_dialog
+
+        if missing_results > 0:
+            message = translation(32255) % missing_results
+            if not payload['silent']: notify(message, ADDON_ICON)
+
+    # rajada: add verified trackers to magnet link
+    for r in filtered_results:
+        if '(T)' in r['name']: r['uri'] = r['uri'] + TR_FULL_STR # ToDO: will fail for (S) and international links, why ?
+
+	# rajada: priority to better similarity (color lime)
+    #filtered_results.sort(key = lambda r: ( (abs(get_int(r['seeds'])) * 10) if "COLOR lime" in r['name'] else get_int(r['seeds']) ), reverse=True)
     return filtered_results
+    # ToDo: not working as expected, as elementum daemon does the sorting
+	# ToDo: ref: https://github.com/elgatito/elementum/blob/master/providers/search.go
+	# ToDo: ref: https://github.com/elgatito/elementum/blob/master/providers/sort.go
+    #return sorted(filtered_results, key = lambda r: ( (abs(get_int(r['seeds'])) * 10) if "COLOR lime" in r['name'] else get_int(r['seeds']) ), reverse=True)
 
 
 def got_results(provider, results):
