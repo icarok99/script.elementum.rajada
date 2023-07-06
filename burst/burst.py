@@ -51,6 +51,7 @@ use_additional_filters = get_setting('additional_filters', bool)
 use_block = get_setting('block', str).strip().lower()
 check_seeders_peers = get_setting("check_seeders_peers", bool)
 use_sequential_tracker_checking = False
+custom_elementum_settings = get_setting("custom_elementum_settings", bool)
 
 use_similarity_filter = get_setting("use_similarity_filter", bool)
 sim_filter_minimum = get_float(get_setting('sim_filter_minimum'))
@@ -97,6 +98,29 @@ if elementum_addon:
         #notify(translation(32253), ADDON_ICON)
         elementum_timeout = 40
     log.info("Using timeout from Elementum: %d seconds" % (elementum_timeout))
+
+    # rajada: custom elementum settings for fast setup
+    if custom_elementum_settings:
+        #notify('Using custom elementum settings', ADDON_ICON)
+		# general
+        elementum_addon.setSetting('torrent_history_size', '200')
+        set_setting('max_size', '300')
+		# appearance
+        elementum_addon.setSetting('results_per_page', '29')
+        elementum_addon.setSetting('viewmode_movies', '54') # InfoWall
+        elementum_addon.setSetting('viewmode_tvshows', '54') # InfoWall
+        # providers
+        elementum_addon.setSetting('sorting_mode_movies', '1') # by Resolution
+        elementum_addon.setSetting('sorting_mode_shows', '1') # by Resolution
+        #elementum_addon.setSetting('use_cache_search', 'true') # ToDo: causing search fail (elementum directory error) ?
+        #elementum_addon.setSetting('cache_search_duration', '20')
+    else:
+        # appearance
+        elementum_addon.setSetting('viewmode_movies', '0') # List
+        elementum_addon.setSetting('viewmode_tvshows', '0') # List
+        # providers
+        elementum_addon.setSetting('sorting_mode_movies', '1') # by Resolution
+        elementum_addon.setSetting('sorting_mode_shows', '1') # by Resolution
 
 # Make sure timeout is always less than the one from Elementum.
 if auto_timeout:
@@ -527,8 +551,8 @@ def extract_torrents(provider, client):
 
         raise StopIteration
 
-    if debug_parser:
-        log.debug("[%s] Parser debug | Page content: %s" % (provider, client.content.replace('\r', '').replace('\n', '')))
+    #if debug_parser:
+    #    log.debug("[%s] Parser debug | Page content: %s" % (provider, client.content.replace('\r', '').replace('\n', ''))) # rajada: large output, removed
 
     key = eval(key_search) if key_search else ""
     if key_search and debug_parser:
@@ -540,9 +564,9 @@ def extract_torrents(provider, client):
         log.debug("[%s] Parser debug | Matched %d items for '%s' query '%s'" % (provider, len(items), 'row', row_search))
 
     for item in items:
-        if debug_parser:
-            item_str = item.__str__()
-            log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'row', row_search, item_str.replace('\r', '').replace('\n', '')))
+        #if debug_parser:
+        #    item_str = item.__str__()
+        #    log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'row', row_search, item_str.replace('\r', '').replace('\n', ''))) # rajada: large output, removed
 
         if not item:
             continue
