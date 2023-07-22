@@ -57,6 +57,7 @@ use_similarity_filter = get_setting("use_similarity_filter", bool)
 sim_filter_minimum = get_float(get_setting('sim_filter_minimum'))
 sim_filter_acceptable = get_float(get_setting('sim_filter_acceptable'))
 sim_filter_good = get_float(get_setting('sim_filter_good'))
+sim_filter_tolerance = 0.09 # at least 25% of similarity
 
 c_lime = "[COLOR lime]"
 c_green = "[COLOR mediumseagreen]"
@@ -439,6 +440,24 @@ def got_results(provider, results):
     if definition['name'] in provider_names:
         provider_names.remove(definition['name'])
 
+# rajada: function for similarity filter
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
+
+# rajada: function for similarity filter
+def clean_words(querywords): # ToDO: put these words at settings.xml
+    words_to_remove = ['4k', '(4k)', 'dual', 'áudio', 'dublado', '720p', '1080p', '5.1', '7.1', 'web-dl', 'webdl', '2160p', 'download',
+    'hd', 'bluray', 'hdcam', '3d', 'hsbs', 'torrent', 'blu-ray', 'rip', 'legendado', 'legenda', '/', '|', '-', '–', 'bd-r', '720p/1080p', 'bdrip', '(Blu-Ray)',
+    '720p/1080p/4K', 'novela', 'seriado', 'full', 'hdr', 'h264', 'x264', 'sdr', 'x265', 'h265', '[Dublado', 'Portugues]', 'hdtc', 'ac-3', '720p/1080p/4k',
+    'webrip', '10bit', 'hdr10plus', 'atmos', 'pt', 'br', '(bluray)', 'aac', 'ddp5', 'dd2', 'camrip', 'avc', 'dts-h', 'dts', '1080p/4k', 'audio',
+    '5.1ch', 'remux', 'hevc', 'dts-hd', 'truehd', 'ma', '[1080p]', '[720p]', '[2160p]', 'hdts', 'amzn', 'dublagem',
+    'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
+	'----------abaixo-stopwords-dos-releasers----------',
+    'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent',
+    'www', 'ThePirateFilmes']
+    treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
+    resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
+    return ' '.join(resultwords)
 
 def extract_torrents(provider, client):
     """ Main torrent extraction generator for non-API based providers
@@ -529,17 +548,43 @@ def extract_torrents(provider, client):
             t_name = "[COLOR blue](T)[/COLOR] "
             s_name = "[COLOR blue](S)[/COLOR] "
             similarity_color = (c_lime if c_lime in name else (c_green if c_green in name else (c_crimson if c_crimson in name else c_white)))
+            
             if my_torrent_var: # rajada: check if is there any result
                 for torrent_item in my_torrent_var: # rajada: loop over all magnets
                     ret = None
+                    
                     magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
                     infohash_regex = re.findall(r'urn:btih:([a-zA-Z0-9]+).*', torrent_item)
                     infohash_value = infohash_regex[0] if infohash_regex else info_hash
+                    torrent_name = unquote(magnet_name[0]) if len(magnet_name) >= 1 else name
+
                     if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, infohash_value, torrent_item, size, seeds, peers)
                     else: ret = (id, s_name + name, infohash_value, torrent_item, size, seeds, peers) # name already come with color tag
+                    
                     # Cache this subpage result if another query would need to request same url.
                     provider_cache[uri[0]] = torrent_item
-                    q.put_nowait(ret)
+                    if use_similarity_filter:
+                        # remove color tag from name, when (S)
+                        parsed_torrent_name = re.sub(r'\[\/color\]', '', torrent_name, flags=re.IGNORECASE)
+                        parsed_torrent_name = re.sub(r'\[color[\sa-zA-Z0-9]*\]', '', parsed_torrent_name, flags=re.IGNORECASE)
+                        # similarity check
+                        similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(parsed_torrent_name).lower())
+                        expected_value = sim_filter_minimum - sim_filter_tolerance
+                        if similarity_value >= expected_value:
+                            log.debug("[%s] Parser debug | Aceito pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(parsed_torrent_name)))
+
+							# update name to debug
+                            #name_color = (c_lime if similarity_value >= sim_filter_good-sim_filter_tolerance else (c_green if similarity_value >= sim_filter_acceptable-sim_filter_tolerance else (c_crimson if similarity_value >= sim_filter_minimum-sim_filter_tolerance else c_white)))
+                            #ret_list = list(ret)
+                            #ret_list[1] = ret_list[1] + name_color + (" ({}%)".format(similarity_value * 100)) + c_close
+                            #ret = tuple(ret_list)
+                            
+                            q.put_nowait(ret)
+                        else:
+                            log.debug("[%s] Parser debug | Bloqueado pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(parsed_torrent_name)))
+                    else:
+                        q.put_nowait(ret)
+                    
                     torrent_counter += 1
                     log.debug("[%s] Subpage torrent with name (%s) for %s: %s" % (provider, ret[1], repr(uri[0]), torrent_item))
                 torrent_counter = 1
@@ -587,21 +632,6 @@ def extract_torrents(provider, client):
             continue
 
         # rajada: Check name similarity with query (due to spam incoming from search mechanisms)
-        def similar(a, b):
-            return SequenceMatcher(None, a, b).ratio()
-        def clean_words(querywords): # ToDO: put these words at settings.xml
-            words_to_remove = ['4k', '(4k)', 'dual', 'áudio', 'dublado', '720p', '1080p', '5.1', '7.1', 'web-dl', 'webdl', '2160p', 'download',
-            'hd', 'bluray', 'hdcam', '3d', 'hsbs', 'torrent', 'blu-ray', 'rip', 'legendado', 'legenda', '/', '|', '-', '–', 'bd-r', '720p/1080p', 'bdrip', '(Blu-Ray)',
-            '720p/1080p/4K', 'novela', 'seriado', 'full', 'hdr', 'h264', 'x264', 'sdr', 'x265', 'h265', '[Dublado', 'Portugues]', 'hdtc', 'ac-3', '720p/1080p/4k',
-            'webrip', '10bit', 'hdr10plus', 'atmos', 'pt', 'br', '(bluray)', 'aac', 'ddp5', 'dd2', 'camrip', 'avc', 'dts-h', 'dts', '1080p/4k', 'audio',
-            '5.1ch', 'remux', 'hevc', 'dts-hd', 'truehd', 'ma', '[1080p]', '[720p]', '[2160p]', 'hdts', 'amzn', 'dublagem',
-            'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
-			'----------abaixo-stopwords-dos-releasers----------',
-            'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent', 'www']
-            treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
-            resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
-            return ' '.join(resultwords)
-        
         if query_value_from_provider: # check if query is None
             log.debug("[%s] Parser debug | (similarity) New query_value_from_provider: %s" % (provider, query_value_from_provider))
         else: log.debug("[%s] Parser debug | (similarity) No query_value_from_provider" % (provider))
