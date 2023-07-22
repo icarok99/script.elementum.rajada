@@ -32,10 +32,12 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 |-|-|-|-|
 | 17.6 | 0.1.87 arm | Fail | Fail |
 | 18.6 | 0.1.87 x86 | Ok | Ok |
+|      | 0.1.94 x86 | Ok | Ok |
 | 18.9 | 0.1.87 arm | Ok | Ok |
 | 19.5 | 0.1.87 arm | Ok | Ok |
 | 20.1 | 0.1.87 x86 | Ok | Ok |
-| 20.2 | 0.1.87 x86 | ? | ? |
+|      | 0.1.94 x86 | Ok | Ok |
+| 20.2 | 0.1.87 x86 | Ok | Ok |
 | 21.0 ALPHA 2 | 0.1.87 x86 | Ok | Ok |
 
 ---
@@ -48,6 +50,15 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 ---
 
 ### Changelog
+
+**0.3**
+
+- provedores atualizados
+- busca com título pt-BR e fallback com título original
+- aplicando filtro de similaridade nos nomes dos links magnéticos da subpage
+- opção para exibir ou esconder nomes dos provedores brasileiros na tela de resultados
+- verificação multithread (python 3) e sequencial (python 2) do número de seeders e leechers via tracker UDP (não considera DHT)
+- ajuste de timeout do elementum
 
 **0.2**
 
