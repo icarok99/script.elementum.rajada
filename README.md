@@ -37,6 +37,7 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 | 19.5 | 0.1.87 arm | Ok | Ok |
 | 20.1 | 0.1.87 x86 | Ok | Ok |
 |      | 0.1.94 x86 | Ok | Ok |
+|      | 0.1.98 x86 | Ok | Ok |
 | 20.2 | 0.1.87 x86 | Ok | Ok |
 | 21.0 ALPHA 2 | 0.1.87 x86 | Ok | Ok |
 
@@ -50,6 +51,11 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 ---
 
 ### Changelog
+
+**0.4**
+
+- provedores atualizados
+- script para verificar resultados dos provedores
 
 **0.3**
 
