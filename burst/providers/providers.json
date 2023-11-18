@@ -271,7 +271,7 @@
         "tv_keywords_fallback": "{title:original} s{season:2}"
     },
 	"bitsearch": {
-        "anime_keywords": "{title:original} s{season:2}e{episode:2}",
+        "anime_keywords": "{title:br} s{season:2}e{episode:2}",
         "anime_keywords_fallback": "{title:original} s{season:2}",
         "anime_query": "",
         "base_url": "https://bitsearch.to/search?q=QUERYEXTRA&category=1&subcat=2&sort=seeders",
@@ -287,6 +287,7 @@
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
+		"movie_keywords_fallback": "{title:en} {year}",
         "movie_query": "",
         "name": "BitSearch",
         "parser": {
@@ -302,16 +303,16 @@
         "private": false,
         "season_extra": "",
         "season_extra2": "",
-        "season_keywords": "{title:br} season {season:2}",
-        "season_keywords2": "{title:br} s{season:2}",
+        "season_keywords": "{title:br} s{season:2}",
+        "season_keywords2": "{title:en} s{season:2}",
         "season_query": "",
         "separator": "+",
         "show_query": "",
         "subpage": null,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords_fallback": "{title:br} s{season:2}"
+        "tv_keywords": "{title:br} s{season:2}",
+        "tv_keywords_fallback": "{title:en} s{season:2}"
     },
     "helltorrents": {
         "anime_extra": null,
@@ -2075,17 +2076,14 @@
         "tv_keywords_fallback": "{title:original} Сезон {season}"
     },
     "thepiratebay": {
-        "anime_keywords": "{title:en} s{season:2}e{episode:2}",
-        "anime_keywords_fallback": "{title:en} s{season:2}",
-        "anime_keywords_fallback2": "{title:en} season {season}",
-        "anime_keywords_fallback3": "{title:en} {season:2}x01",
+        "anime_keywords": "{title:br} s{season:2}e{episode:2}",
+        "anime_keywords_fallback": "{title:en} s{season:2}e{episode:2}",
         "anime_query": "200",
         "base_url": "https://thepiratebay10.org/search/QUERYEXTRA/1/99/",
         "color": "FF5A3C22",
         "enabled": true,
         "general_extra": "",
         "general_keywords": "{title:br}",
-		"general_keywords_fallback": "{title}",
         "general_query": "200",
         "language": null,
         "languages": "en",
@@ -2111,9 +2109,8 @@
         "remove_special_characters" : "'",
         "season_extra": "",
         "season_extra2": "",
-        "season_keywords": "{title:en} s{season:2}",
-        "season_keywords2": "{title:en} season {season}",
-        "season_keywords_fallback": "{title:en} {season:2}x01",
+        "season_keywords": "{title:br} s{season:2}",
+		"season_keywords_fallback": "{title:en} s{season:2}",
         "season_query": "200",
         "separator": "%20",
         "show_query": "200",
@@ -2121,11 +2118,8 @@
         "tor_dns_alias": "piratebayo3klnzokct3wt5yyxb2vpebbuyjl7m623iaxmqhsd52coid.onion",
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:en} s{season:2}e{episode:2}",
-        "tv_keywords2": "{title:br} s{season:2}",
-        "tv_keywords_fallback": "{title:en} s{season:2}",
-        "tv_keywords_fallback2": "{title:en} season {season}",
-        "tv_keywords_fallback3": "{title:en} {season:2}x01"
+        "tv_keywords": "{title:br} s{season:2}",
+        "tv_keywords_fallback": "{title:en} s{season:2}"
     },
     "tntvillage": {
         "anime_keywords": "{title} s{season:2}e{episode:2}",
@@ -3187,7 +3181,7 @@
 
 	"cinetorrent.com.br": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
         "base_url": "https://www.cinetorrent.com.br/search?q=QUERY",
         "color": "FFF14E13",
@@ -3217,14 +3211,13 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
+        "tv_keywords": "{title:br} s{season:2}",
         "tv_keywords2": "",
         "tv_keywords3": "",
         "tv_keywords_fallback": "",
@@ -3233,14 +3226,13 @@
 
 	"comandofilmeshd.org": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
         "base_url": "https://comandofilmeshd.org/?s=QUERY",
         "color": "FFF14E13",
 		"enabled": true,
         "general_extra": "",
         "general_keywords": "{title:br}",
-		"general_keywords_fallback": "{title}",
         "general_query": "EXTRA",
 		"language": "br",
         "languages": "br, pt",
@@ -3249,7 +3241,6 @@
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
-		"movie_keywords_fallback": "{title} {year}",
         "movie_query": "EXTRA",
         "name": "ComandoFilmesHD",
         "parser": {
@@ -3265,19 +3256,14 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}",
-        "tv_keywords_fallback2": ""
+        "tv_keywords": "{title:br} s{season:2}",
+        "tv_keywords_fallback": "{title} s{season:2}"
     },
 
 	"nerdfilmes.com.br": {
@@ -3312,18 +3298,13 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords": "{title:br} s{season:2}"
     },
 
 	"comandotorrents.to": {
@@ -3360,7 +3341,7 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
+		"season_keywords_fallback": "{title} s{season:2}",
         "season_keywords2": "{title:br} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
@@ -3409,8 +3390,8 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+		"season_keywords_fallback": "{title} {season:2}",
+        "season_keywords2": "{title:br} {season}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
@@ -3456,23 +3437,19 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+        "season_keywords2": "{title:en} {season}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords": "{title:br} s{season:2}e{episode:2}"
     },
 
 	"comando4kfilmes.org": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
         "base_url": "https://comando4kfilmes.org/?s=QUERY",
         "color": "FFF14E13",
@@ -3488,7 +3465,7 @@
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
-		"movie_keywords_fallback": "{title} {year}",
+		"movie_keywords_fallback": "{title:en} {year}",
         "movie_query": "EXTRA",
         "name": "Comando4KFilmes",
         "parser": {
@@ -3505,6 +3482,7 @@
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
         "season_keywords2": "{title:br} {season} temporada",
+		"season_keywords_fallback": "{title:en} s{season:2}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
@@ -3514,11 +3492,9 @@
         "tv_keywords": "{title:br} s{season:2}e{episode:2}",
         "tv_keywords2": "",
         "tv_keywords3": "",
-        "tv_keywords_fallback": "{title}",
+        "tv_keywords_fallback": "{title:en} {year}",
         "tv_keywords_fallback2": ""
     },
-
-	
 
 	"wolverdonfilme.net": {
         "anime_extra": "",
@@ -3529,6 +3505,7 @@
 		"enabled": true,
         "general_extra": "",
         "general_keywords": "{title:br}",
+		"general_keywords_fallback": "{title:en}",
         "general_query": "EXTRA",
 		"language": "br",
         "languages": "br, pt",
@@ -3552,20 +3529,19 @@
         "private": false,
         "season_extra": "",
         "season_extra2": "",
-        "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+        "season_keywords": "{title:br} temporada {season:2}",
+		"season_keywords_fallback": "{title} {season:2}",
+        "season_keywords2": "{title:en} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
+        "tv_keywords": "{title:br} s{season:2}",
         "tv_keywords2": "",
         "tv_keywords3": "",
-        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}",
-        "tv_keywords_fallback2": ""
+        "tv_keywords_fallback": "{title} s{season:2}"
     },
 
 	"filmestorrent.tv": {
@@ -3600,18 +3576,14 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+        "season_keywords2": "{title:en} {season}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords": "{title:br} s{season:2}"
     },
 
 	"filmestorrents.pro": {
@@ -3646,18 +3618,14 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+        "season_keywords2": "{title:en} {season}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords": "{title:br} s{season:2}"
     },
 
 	"torrentdofilmes.com": {
@@ -3754,7 +3722,7 @@
 
 	"bludvfilmes.net": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
         "base_url": "https://bludvfilmes.net/?s=QUERY",
         "color": "FFF14E13",
@@ -3786,8 +3754,8 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
+		"season_keywords_fallback": "{title} {season:2}",
+        "season_keywords2": "{title:en} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
@@ -3795,10 +3763,7 @@
         "tv_extra": "",
         "tv_extra2": "",
         "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}",
-        "tv_keywords_fallback2": ""
+        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}"
     },
 
 	"torrentdosfilmes.se": {
@@ -3895,7 +3860,7 @@
 
 	"supertorrents.net": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
         "anime_query": "EXTRA",
         "base_url": "https://supertorrents.net/?s=QUERY",
         "color": "FFF14E13",
@@ -3910,7 +3875,6 @@
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
-		"movie_keywords_fallback": "{title} {year}",
         "movie_query": "EXTRA",
         "name": "SuperTorrents",
         "parser": {
@@ -3926,30 +3890,29 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
-		"season_keywords_fallback": "{title} {season:2} temporada",
-        "season_keywords2": "{title:br} {season} temporada",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
         "subpage": true,
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}e{episode:2}",
+        "tv_keywords": "{title:br} s{season:2}",
         "tv_keywords2": "",
         "tv_keywords3": "",
-        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}",
-        "tv_keywords_fallback2": ""
+        "tv_keywords_fallback": "{title} s{season:2}e{episode:2}"
     },
 
 	"emtorrents.com": {
         "anime_extra": "",
-        "anime_keywords": "{title} {episode}",
+        "anime_keywords": "{title:br}",
+		"anime_keywords_fallback": "{title:en} {episode}",
         "anime_query": "EXTRA",
         "base_url": "https://emtorrents.com/index.php?s=QUERY",
         "color": "FFF14E13",
 		"enabled": true,
         "general_extra": "",
         "general_keywords": "{title:br}",
+		"general_keywords_fallback": "{title:en}",
         "general_query": "EXTRA",
 		"language": "br",
         "languages": "br, pt",
@@ -3958,6 +3921,7 @@
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
+		"movie_keywords_fallback": "{title:en} {year}",
         "movie_query": "EXTRA",
         "name": "EmTorrents",
         "parser": {
@@ -3974,6 +3938,7 @@
         "season_extra2": "",
         "season_keywords": "{title:br} {season:2} temporada",
         "season_keywords2": "{title:br} {season} temporada",
+		"season_keywords_fallback": "{title:en} s{season:2}",
         "season_query": "EXTRA",
         "separator": "+",
         "show_query": "",
@@ -3981,10 +3946,7 @@
         "tv_extra": "",
         "tv_extra2": "",
         "tv_keywords": "{title:br} s{season:2}e{episode:2}",
-        "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords_fallback": "{title:en} s{season:2}"
     },
 
 	"vamostorrent.com": {
@@ -4028,9 +3990,7 @@
         "tv_extra2": "",
         "tv_keywords": "{title:br} s{season:2}e{episode:2}",
         "tv_keywords2": "",
-        "tv_keywords3": "",
-        "tv_keywords_fallback": "",
-        "tv_keywords_fallback2": ""
+        "tv_keywords3": ""
     },
 
 	"megatorrentsx.com": {

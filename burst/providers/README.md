@@ -5,13 +5,13 @@
 
 | **Provider**            | **Search**                    | **Last check**         | **Default**   | **Fallback** | **Group**      |
 |-------------------------|-------------------------------|------------------------|---------------|--------------|----------------|
-| bitsearch.to            | ...                           | 22.10.23 - Ok          | Y             |              |                |
+| bitsearch.to            | ...                           | 22.10.23 - Ok          | Y             | Y            |                |
 | bludvfilmes.net         | ?s=QUERY                      | 21.10.23 - Ok          | Y             | Y            |                |
 | cinetorrent.com.br      | search?q=QUERY                | 19.10.23 - Ok          | Y             |              |                |
-| comando4kfilmes.org     | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              |                |
+| comando4kfilmes.org     | ?s=QUERY                      | 21.10.23 - Ok          | Y             | Y            |                |
 | comandofilmeshd.org     | ?s=QUERY                      | 20.10.23 - Ok          | Y             |              |                |
 | comandotorrents.to      | ?s=QUERY                      | 20.10.23 - Ok          | Y             | Y            |                |
-| emtorrents.com          | index.php?s=QUERY             | 12.11.23 - Ok          | Y             |              | ondebaixo      |
+| emtorrents.com          | index.php?s=QUERY             | 12.11.23 - Ok          | Y             | Y            | ondebaixo      |
 | filmestorrent.tv        | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              | filmes torrent |
 | filmestorrents.pro      | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              |                |
 | filmeviatorrents.org    | ?s=QUERY                      | 20.10.23 - Ok          | Y             |              |                |
@@ -23,10 +23,10 @@
 | nerdfilmes.com.br       | ?s=QUERY                      | 20.10.23 - Ok          | Y             |              |                |
 | netjmx.com              | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              |                |
 | semtorrent.com          | index.php?s=QUERY             | 12.11.23 - Ok          | Y             |              | ondebaixo      |
-| supertorrents.net       | ?s=QUERY                      | 21.10.23 - Ok          | N (not added) |              |                |
-| thepiratebay10.org      | ...                           | 22.10.23 - Ok          | Y             |              |                |
-| torrentdofilmes.com     | ?s=QUERY                      | 21.10.23 - Ok          | N             |              | comando        |
-| torrentdosfilmes.se     | ?s=QUERY                      | 21.10.23 - Ok          | N             |              | filmes torrent |
+| supertorrents.net       | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              |                |
+| thepiratebay10.org      | ...                           | 22.10.23 - Ok          | Y             | Y            |                |
+| torrentdofilmes.com     | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              | comando        |
+| torrentdosfilmes.se     | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              | filmes torrent |
 | torrentdosfilmes.site   | ?s=QUERY                      | 21.10.23 - Ok          | Y             |              |                |
 | torrentfilmesx.com      | /search/?q=QUERY              | 13.11.23 - Ok          | Y             |              |                |
 | torrentgalaxy.to        | ...&lang=15                   | 21.10.23 - Ok          | Y (1win dub)  |              |                |
