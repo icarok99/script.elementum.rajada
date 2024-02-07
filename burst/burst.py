@@ -307,6 +307,8 @@ def search(payload, method="general"):
         p_dialog.create('Elementum [COLOR FFFF6B00]Rajada[/COLOR]', translation(32061))
     total_results = float(len(filtered_results)) # float as python 2 has precision error
     missing_results = int(total_results)
+    not_br_results = 0
+    already_checked_hashes = []
 
     if check_seeders_peers:
         log.debug("Timer: %ds / %ds" % (timer, timeout))
@@ -315,6 +317,7 @@ def search(payload, method="general"):
         if use_sequential_tracker_checking:
             for r in filtered_results:
                 if 'FFF14E13' not in r['provider']: # only check links from brazilian trackers
+                    not_br_results += 1
                     missing_results -= 1
                     continue
                 message = translation(32254) % missing_results
@@ -350,10 +353,12 @@ def search(payload, method="general"):
 
         # -> parallel version with ThreadPool (working at android if python >= 3) <-
         else:
-            workers = len(filtered_results) if len(filtered_results) > 0 and len(filtered_results) <= 16 else 16
+            results_to_check = [x for x in filtered_results if 'FFF14E13' in x['provider']] # only check links from brazilian trackers
+            workers = len(results_to_check) if len(results_to_check) > 0 and len(results_to_check) <= 16 else 16
             with ThreadPoolExecutor(max_workers = workers) as executor:
-                futures = [executor.submit(get_torrent_info, torrent_obj = x) for x in filtered_results if 'FFF14E13' in x['provider']] # only check links from brazilian trackers
-                missing_results -= (missing_results - len(futures)) # remove non brazilian entries from counter
+                futures = [executor.submit(get_torrent_info, torrent_obj = x) for x in results_to_check]
+                not_br_results = missing_results - len(results_to_check)
+                missing_results -= not_br_results # remove non brazilian entries from counter
                 for f in as_completed(futures):
                     pool_result = f.result()
                     message = translation(32254) % missing_results
@@ -363,8 +368,11 @@ def search(payload, method="general"):
                     if timer + 4 >= timeout:
                         log.debug("Timer reached Timeout for ThreadPool tracker checking")
                         break
-                    for r in filtered_results:
+                    for r in results_to_check:
+                        if r['info_hash'] in already_checked_hashes:
+                            continue
                         if r['info_hash'] == pool_result[0]: # same hash
+                            already_checked_hashes.append(r['info_hash'])
                             parsed_seeds, parsed_peers = pool_result[1], pool_result[2]
                             r['seeds'] = parsed_seeds if (parsed_seeds and parsed_seeds > r['seeds']) else r['seeds']
                             r['peers'] = parsed_peers if (parsed_peers and parsed_peers > r['peers']) else r['peers']
@@ -372,6 +380,8 @@ def search(payload, method="general"):
 
         if not payload['silent']: p_dialog.close()
         del p_dialog
+
+        #xbmcgui.Dialog().ok('Checking Results', 'total %s\nnot br %s\nmissing %s' % (total_results, not_br_results, missing_results))
 
         if missing_results > 0:
             message = translation(32255) % missing_results
