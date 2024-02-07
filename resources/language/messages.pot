@@ -415,6 +415,18 @@ msgctxt "#32223"
 msgid "Custom elementum settings"
 msgstr ""
 
+msgctxt "#32224"
+msgid "Update providers"
+msgstr ""
+
+msgctxt "#32225"
+msgid "Update failed"
+msgstr ""
+
+msgctxt "#32226"
+msgid "settings.xml.........%s\nproviders.json.....%s\n\nRestart Kodi for the change to take effect"
+msgstr ""
+
 msgctxt "#32250"
 msgid "Using sequential tracker checking"
 msgstr ""

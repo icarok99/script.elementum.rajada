@@ -400,19 +400,31 @@ msgstr ""
 
 msgctxt "#32220"
 msgid "Rajada Settings"
-msgstr ""
+msgstr "Configurações do Rajada"
 
 msgctxt "#32221"
 msgid "Show brazilian providers name"
-msgstr ""
+msgstr "Exibir nome dos provedores Brasileiros"
 
 msgctxt "#32222"
 msgid "Check seeders and peers (slow)"
-msgstr ""
+msgstr "Verificar seeders e peers (lento)"
 
 msgctxt "#32223"
 msgid "Custom elementum settings"
-msgstr ""
+msgstr "Configurações customizadas do Elementum"
+
+msgctxt "#32224"
+msgid "Update providers"
+msgstr "Atualizar provedores"
+
+msgctxt "#32225"
+msgid "Update failed"
+msgstr "Falha na atualização"
+
+msgctxt "#32226"
+msgid "settings.xml.........%s\nproviders.json.....%s\n\nRestart Kodi for the change to take effect"
+msgstr "settings.xml.........%s\nproviders.json.....%s\n\nReinicie o Kodi para a mudança surtir efeito"
 
 msgctxt "#32250"
 msgid "Using sequential tracker checking"
