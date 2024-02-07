@@ -3,6 +3,7 @@ import hashlib
 import socket
 import random
 from struct import error, pack, unpack
+from kodi_six import xbmcgui
 from elementum.provider import log
 from future.utils import PY3
 if PY3:
@@ -11,6 +12,7 @@ else:
 	from urlparse import urlparse
 	from urllib import quote
 
+# ref: https://github.com/ngosang/trackerslist
 
 TR_OPENBT1 = ('tracker.openbittorrent.com', 80)
 TR_OPENBT1_URL = 'http://tracker.openbittorrent.com:80/announce'
@@ -32,6 +34,12 @@ TR_STEALTH_URL = 'udp://open.stealth.si:80/announce'
 
 TR_EXPLODIE = ('explodie.org', 6969)
 TR_EXPLODIE_URL = 'udp://explodie.org:6969'
+
+TR_AUCTOR = ('tracker.auctor.tv', 6969)
+TR_AUCTOR_URL = 'udp://tracker.auctor.tv:6969/announce'
+
+TR_EU = ('tracker.torrent.eu.org', 451)
+TR_EU_URL = 'udp://tracker.torrent.eu.org:451/announce'
 
 TR_PUBLICBT_URL = 'udp://tracker.publicbt.com:80' # error at checking
 
@@ -152,12 +160,14 @@ def get_torrent_info(torrent_obj):
 	id = hashlib.sha1(str(time.time()).encode('utf-8')).digest() # peer id
 
 	results = []
-	results.append(get_info_from_tracker(new_hash, id, TR_OPENBT1[0], TR_OPENBT1[1]))
-	results.append(get_info_from_tracker(new_hash, id, TR_OPENBT2[0], TR_OPENBT2[1]))
-	results.append(get_info_from_tracker(new_hash, id, TR_OPENTR[0], TR_OPENTR[1]))
-	#results.append(get_info_from_tracker(new_hash, id, TR_I2P[0], TR_I2P[1]))
-	#results.append(get_info_from_tracker(new_hash, id, TR_STEALTH[0], TR_STEALTH[1]))
-	#results.append(get_info_from_tracker(new_hash, id, TR_EXPLODIE[0], TR_EXPLODIE[1]))
+	#results.append(get_info_from_tracker(new_hash, id, TR_OPENBT1[0], TR_OPENBT1[1])) 			# 06.02.24 not working
+	#results.append(get_info_from_tracker(new_hash, id, TR_OPENBT2[0], TR_OPENBT2[1])) 			# 06.02.24 not working
+	results.append(get_info_from_tracker(new_hash, id, TR_OPENTR[0], TR_OPENTR[1])) 			# 06.02.24 working
+	results.append(get_info_from_tracker(new_hash, id, TR_I2P[0], TR_I2P[1])) 					# 06.02.24 working
+	#results.append(get_info_from_tracker(new_hash, id, TR_STEALTH[0], TR_STEALTH[1])) 			# 06.02.24 working
+	#results.append(get_info_from_tracker(new_hash, id, TR_EXPLODIE[0], TR_EXPLODIE[1])) 		# 06.02.24 working
+	results.append(get_info_from_tracker(new_hash, id, TR_AUCTOR[0], TR_AUCTOR[1])) 			# 06.02.24 working
+	#results.append(get_info_from_tracker(new_hash, id, TR_OPENDEMONII[0], TR_OPENDEMONII[1])) 	# 06.02.24 working
 
 	s_array = [x[0] for x in results if x is not None]
 	num_s = max(s_array) if len(s_array) > 0 else -1
@@ -181,15 +191,22 @@ def get_info_from_tracker(hash, peer_id, ip, port):
 
 	tracker_connection_input = UdpTrackerConnection()
 	message = tracker_connection_input.to_bytes()
-	sock.sendto(message, (ip, port))
+	try:
+		sock.sendto(message, (ip, port))
+	except Exception as e:
+		#xbmcgui.Dialog().ok('Rajada Tracker', 'sock.sendto fail\n%s %s\n%s' % (ip, port, repr(e)))
+		#log.debug("[COLOR blue]RAJADA_TRACKER - sock.sendto fail : %s[/COLOR]" % e.__str__())
+		return None
 
 	try:
 		response = _read_from_socket(sock)
 	except socket.timeout as e:
-		log.debug("RAJADA_TRACKER - Timeout : %s" % e.__str__())
+		#xbmcgui.Dialog().ok('Rajada Tracker', 'timeout fail\n%s %s\n%s' % (ip, port, repr(e)))
+		#log.debug("RAJADA_TRACKER - Timeout : %s" % e.__str__())
 		return None
 	except Exception as e:
-		log.debug("RAJADA_TRACKER - Unexpected error when sending message : %s" % e.__str__())
+		#xbmcgui.Dialog().ok('Rajada Tracker', 'read fail\n%s %s\n%s' % (ip, port, repr(e)))
+		#log.debug("RAJADA_TRACKER - Unexpected error when sending message : %s" % e.__str__())
 		return None
 
 	intg = list(response)
@@ -206,21 +223,24 @@ def get_info_from_tracker(hash, peer_id, ip, port):
 			sock.sendto(tracker_announce_input.to_bytes(), (ip, port))
 			response = _read_from_socket(sock)
 		except Exception as e:
-			log.debug('RAJADA_TRACKER - announce failed for %s %s - %s' % (ip,port,e.__str__()))
+			#xbmcgui.Dialog().ok('Rajada Tracker', 'announce fail\n%s %s\n%s' % (ip, port, repr(e)))
+			#log.debug('RAJADA_TRACKER - announce failed for %s %s - %s' % (ip,port,e.__str__()))
 			return None
 
 		if not response:
-			log.debug('RAJADA_TRACKER - No response for UdpTrackerAnnounce: %s %s' % (ip, port))
+			#log.debug('RAJADA_TRACKER - No response for UdpTrackerAnnounce: %s %s' % (ip, port))
 			return None
 		if b"Connection ID missmatch" in response:
-			log.debug('RAJADA_TRACKER - Connection ID missmatch at socket response')
+			#log.debug('RAJADA_TRACKER - Connection ID missmatch at socket response')
 			return None
 
 		try:
 		    tracker_announce_output = UdpTrackerAnnounceOutput()
 		    tracker_announce_output.from_bytes(response)
 		    return (tracker_announce_output.seeders, tracker_announce_output.leechers)
-		except Exception:
-		    log.debug('RAJADA_TRACKER - UdpTrackerAnnounceOutput from_bytes() failed')
+		except Exception as e:
+			#xbmcgui.Dialog().ok('Rajada Tracker', 'announce output fail\n%s %s\n%s' % (ip, port, repr(e)))
+			#log.debug('RAJADA_TRACKER - UdpTrackerAnnounceOutput from_bytes() failed')
+			return None
 
 	return None
