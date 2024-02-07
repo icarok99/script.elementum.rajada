@@ -550,16 +550,21 @@ def extract_torrents(provider, client):
             similarity_color = (c_lime if c_lime in name else (c_green if c_green in name else (c_crimson if c_crimson in name else c_white)))
             
             if my_torrent_var: # rajada: check if is there any result
+                #log.debug("[COLOR gold]%s - size %s parsed %s[/COLOR]" % (provider, size, repr([x[1] for x in my_torrent_var])))
                 for torrent_item in my_torrent_var: # rajada: loop over all magnets
                     ret = None
-                    
+                    size_item = size
+                    if hasattr(torrent_item, '__iter__') and len(torrent_item) > 1: # check is iterable, as can be magnet or tuple
+                        size_item = torrent_item[1]
+                        torrent_item = torrent_item[0]
+
                     magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
                     infohash_regex = re.findall(r'urn:btih:([a-zA-Z0-9]+).*', torrent_item)
                     infohash_value = infohash_regex[0] if infohash_regex else info_hash
                     torrent_name = unquote(magnet_name[0]) if len(magnet_name) >= 1 else name
 
-                    if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, infohash_value, torrent_item, size, seeds, peers)
-                    else: ret = (id, s_name + name, infohash_value, torrent_item, size, seeds, peers) # name already come with color tag
+                    if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, infohash_value, torrent_item, size_item, seeds, peers)
+                    else: ret = (id, s_name + name, infohash_value, torrent_item, size_item, seeds, peers) # name already come with color tag
                     
                     # Cache this subpage result if another query would need to request same url.
                     provider_cache[uri[0]] = torrent_item
@@ -586,7 +591,7 @@ def extract_torrents(provider, client):
                         q.put_nowait(ret)
                     
                     torrent_counter += 1
-                    log.debug("[%s] Subpage torrent with name (%s) for %s: %s" % (provider, ret[1], repr(uri[0]), torrent_item))
+                    log.debug("[%s] Subpage torrent with name (%s) and size (%s) for %s: %s" % (provider, ret[1], size_item, repr(uri[0]), torrent_item))
                 torrent_counter = 1
             #xbmc.log('Magnet links for %s: %s' % (provider, my_torrent_var), level=xbmc.LOGINFO) #ref: https://kodi.wiki/view/Log_file/Advanced
 
@@ -862,8 +867,18 @@ def extract_from_page(provider, content):
     try:
         matches = re.findall(r'magnet:\?[^\'"\s<>\[\]]+', content)
         if matches:
-            result = matches # rajada: return all results
-            log.debug('[%s] Matched magnet link: %s' % (provider, repr(result)))
+            #result = matches # rajada: return all results
+            log.debug('[%s] Matched magnet link: %s' % (provider, repr(matches)))
+            try:
+                sizes = re.findall(r'[0-9]+(?:\.[0-9]{1,2})?\s(?:[GM]B|[gm]b)', content)
+                if len(sizes) >= len(matches):
+                    sizes = sizes[len(sizes) - len(matches):]
+                else:
+                    sizes = ['' for x in matches]
+                result = zip(matches, sizes)
+            except Exception as e:
+                sizes = ['' for x in matches]
+                result = zip(matches, sizes)
             return result
 
         matches = re.findall('http(.*?).torrent["\']', content)

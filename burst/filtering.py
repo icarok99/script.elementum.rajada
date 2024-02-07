@@ -786,6 +786,11 @@ def cleanup_results(results_list):
 
     hashes = []
     filtered_list = []
+    
+    dict_hash_size = {} # rajada: if some provider got size, we copy it to the others
+    results_list = sorted(results_list, key=lambda r: len(r['size']), reverse=True) # rajada: assert results with size come first
+    #log.debug("[COLOR gold]Full size list %s[/COLOR]" % repr([x['size'] for x in results_list]))
+
     for result in results_list:
         if not result['seeds'] and not use_allow_noseeds:
             log.debug('[%s] Skipping due to no seeds: %s' % (result['provider'][16:-8], repr(result['name'])))
@@ -810,6 +815,25 @@ def cleanup_results(results_list):
                     hash_ = hashlib.md5(hash_).hexdigest()
             except:
                 pass
+
+        # rajada: pass size to all results with same hash
+        if "FFF14E13" in result['provider']: # only br providers
+            result['size'] = result['size'].replace('GiB', 'GB')
+            if result['size'] != '' and len(result['size']) > 2 and hash_ not in dict_hash_size.keys():
+                dict_hash_size[hash_] = result['size']
+                #log.debug("[COLOR gold]FIRST SIZE (%s) for hash %s[/COLOR]" % (result['size'], hash_))
+            elif result['size'] != '' and hash_ in dict_hash_size.keys() and (len(result['size']) > len(dict_hash_size[hash_])):
+                #log.debug("[COLOR gold]REPLACED SIZE (%s) with (%s) for hash %s[/COLOR]" % (dict_hash_size[hash_], result['size'], hash_))
+                dict_hash_size[hash_] = result['size']
+            elif len(result['size']) < 3 and hash_ in dict_hash_size.keys():
+                result['size'] = dict_hash_size[hash_]
+                #log.debug("[COLOR gold]NEW SIZE (%s) for hash %s[/COLOR]" % (result['size'], hash_))
+                # update filtered list JIC
+                for item in filtered_list:
+                    if item['info_hash'] == hash_ and "FFF14E13" in item['provider']:
+                        item['size'] = dict_hash_size[hash_]
+            else:
+                result['size'] = ''
 
         # Make sure all are upper-case and provider-scoped
         hash_ = result['provider'] + hash_.upper()
