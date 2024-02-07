@@ -12,10 +12,12 @@ if __name__ == '__main__':
 	#bu = bu.replace('EXTRA', ' [Dublado Portugues]') # perde resultados
 	
 	j = read_json()
-	#i = 'o iluminado'
 	i = 'avatar'
+	#i = 'o iluminado'
+	#i = 'o vidente 2002'
 	#i = 'the last of us'
 	#i = 'naruto classico'
+	#i = 'velozes e furiosos'
 	#i = input('Query: ')
 	
 	
@@ -63,7 +65,7 @@ if __name__ == '__main__':
 	#pp = make_rules('fa', 1, 'li', "", 1, 'h3', 'class', 'ul', "filmesindex")
 
 	# wolverdonfilme.net
-	pp = make_rules('b', 1, 'li', "'post-item'", 1)
+	#pp = make_rules('b', 1, 'li', "'post-item'", 1)
 
 	# torrentgalaxy.to
 	#pp = make_rules('f', 2, 'div', "'tgxtablerow'", 1, 'a', 'class', 'div', 'tgxtable', "select=('role', 'button'),")
@@ -80,5 +82,5 @@ if __name__ == '__main__':
 	#test_site(i, bu.replace('QUERY', i), pp['parsing_name'], pp['parsing_row'], pp['parsing_torrent'], False)
 
 
-	test_all_providers(i, j, 3)
+	test_all_providers(i, j, 100)
 	

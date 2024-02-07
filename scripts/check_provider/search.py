@@ -1,10 +1,12 @@
 
 import json
+from urllib.parse import unquote
 import requests
 import re
 
 from ehp_mod import *
-from similarity import *
+from similarity import similar, clean_words
+from pprint import pprint
 
 #headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
@@ -17,6 +19,24 @@ headers = {
 sim_min = 0.34
 sim_mid = 0.42
 sim_max = 0.68
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+def simcolor(value):
+	if value >= sim_max: c = bcolors.OKGREEN
+	elif value >= sim_mid: c = bcolors.OKBLUE
+	elif value >= sim_min: c = bcolors.WARNING
+	else: c = bcolors.FAIL
+	return f"{c}{value}{bcolors.ENDC}"
 
 def read_json():	
 	with open('../../burst/providers/providers.json') as f:
@@ -32,8 +52,16 @@ def mag_name(name):
 	r = re.findall(r'[?&(&amp;)]dn=([^&]+).*', name)
 	return r[0] if len(r) >= 1 else ''
 
+def mag_hash(name):
+	r = re.findall(r'urn:btih:([a-zA-Z0-9]+).*', name)
+	return r[0] if len(r) >= 1 else None
+
 def check_sim(q, name):
-	return round(similar(clean_words(q).lower(), clean_words(name).lower()), 3)
+	q1 = clean_words(unquote(q)).lower()
+	name1 = clean_words(unquote(name)).lower()
+	result = round(similar(q1, name1), 3)
+	print(bcolors.HEADER, 'checking sim', q1, name1, simcolor(result))
+	return result
 
 def test_site(query, base_url, name, row, torrent, show_links = False):
 	print('test_site()')
@@ -43,7 +71,8 @@ def test_site(query, base_url, name, row, torrent, show_links = False):
 	results = []
 
 	items = eval('dom.' + row)
-	print('\n\n', base_url, len(items), ' resultados - response ', c)	
+	print('\n\n', f'{bcolors.OKGREEN}NEW PROVIDER{bcolors.ENDC}')
+	print(base_url, len(items), ' resultados - response ', c) 
 	for item in items:
 		if not item: continue
 		n = eval(name)
@@ -78,6 +107,7 @@ def test_all_providers(i, j, limit = 5):
 	#print(br_keys)
 
 	results = []
+	unique_results = {}
 
 	for site in br_keys:
 		name = j[site]["parser"]["name"]
@@ -94,7 +124,10 @@ def test_all_providers(i, j, limit = 5):
 			continue
 
 		items = eval('dom.' + row)
-		print('\n\n', base_url, len(items), ' resultados - response ', c)
+		#breaks = '\n\n'
+		breaks = '\n'
+		print(breaks, f'{bcolors.OKGREEN}NEW PROVIDER{bcolors.ENDC}')
+		print(base_url, len(items), ' resultados - response ', c)
 		counter = 0
 		for item in items:
 			if not item: continue
@@ -108,6 +141,13 @@ def test_all_providers(i, j, limit = 5):
 				if links != None:
 					for rl in links:
 						results.append([n, len(links), check_sim(i, mag_name(rl)), mag_name(rl), rl])
+						
+						#print(rl)
+						if mag_hash(rl) not in unique_results.keys() and 'Uploader:' not in n and 'Listão' not in n:
+							unique_results[mag_hash(rl)] = {'n':mag_name(rl), 'f':rl}
+						elif mag_hash(rl) in unique_results.keys() and len(rl) > len(unique_results[mag_hash(rl)]['f']) and 'Uploader:' not in n and 'Listão' not in n:
+							unique_results[mag_hash(rl)] = {'n':mag_name(rl), 'f':rl}
+				
 			else:
 				print(n, t)
 				results.append([n, t, 'place', 'place', 'place'])
@@ -116,7 +156,7 @@ def test_all_providers(i, j, limit = 5):
 			#if counter == limit: break
 
 		#yield results
-	
+	print('\n\n\n'); pprint(unique_results)
 	#yield results
 
 
