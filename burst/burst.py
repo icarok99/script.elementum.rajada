@@ -464,7 +464,16 @@ def clean_words(querywords): # ToDO: put these words at settings.xml
     'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
 	'----------abaixo-stopwords-dos-releasers----------',
     'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent',
-    'www', 'ThePirateFilmes']
+    'www', 'ThePirateFilmes',
+	'------- adicionado 07.02.24 --------------------',
+	'x264-rarbg', 'ddp', 'x264-cm', 'atmos-cm', 'r5', 'dv', 'mkv', 'eac3', 'dub-lapumia', 'x260bit',
+	'(dual' , 'audio)', 'aud', '[blu', 'ray]', '[1080p', '3d]', '(dublado)', '[dual]', '[bluray]',
+	'(720p)', '(1080p)', 'wolverdonfilmes', 'dvdrip', 'avi', 'xvid', 'brrip', 'x264-ion10', 'dat2014',
+	'x265-rarbg', 'mp3-xvid', 'uhd', 'rmvb', 'ptbr', 'srt', 'pt-br', 'dub', '264', 'd4v1', 'dd', '[eztv]',
+	'dual-baixarfilmesviatorrents', '(sd)', 'animestotais', 'dual-www', 'hmax', 'dual-cfhd', 'fullhd',
+	'ddp-cm', '264-www', '-legendado-', 'vemtorrent', '900mb', '1600mb', '[yts', 'mx]', '800mb',
+	'1400mb', 'repack', '8bit', 'comandotorrents', 'aac2', 'lapumia', 'ac3', 'encoder', 'extended'
+	]
     treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
     resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
     return ' '.join(resultwords)
@@ -583,10 +592,10 @@ def extract_torrents(provider, client):
                         parsed_torrent_name = re.sub(r'\[\/color\]', '', torrent_name, flags=re.IGNORECASE)
                         parsed_torrent_name = re.sub(r'\[color[\sa-zA-Z0-9]*\]', '', parsed_torrent_name, flags=re.IGNORECASE)
                         # similarity check
-                        similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(parsed_torrent_name).lower())
+                        similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(unquote(parsed_torrent_name)).lower())
                         expected_value = sim_filter_minimum - sim_filter_tolerance
                         if similarity_value >= expected_value:
-                            log.debug("[%s] Parser debug | Aceito pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(parsed_torrent_name)))
+                            log.debug("[%s] Parser debug | Aceito pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(unquote(parsed_torrent_name))))
 
 							# update name to debug
                             #name_color = (c_lime if similarity_value >= sim_filter_good-sim_filter_tolerance else (c_green if similarity_value >= sim_filter_acceptable-sim_filter_tolerance else (c_crimson if similarity_value >= sim_filter_minimum-sim_filter_tolerance else c_white)))
@@ -596,7 +605,7 @@ def extract_torrents(provider, client):
                             
                             q.put_nowait(ret)
                         else:
-                            log.debug("[%s] Parser debug | Bloqueado pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(parsed_torrent_name)))
+                            log.debug("[%s] Parser debug | Bloqueado pelo similarity filter 2 com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(unquote(parsed_torrent_name))))
                     else:
                         q.put_nowait(ret)
                     
@@ -655,12 +664,12 @@ def extract_torrents(provider, client):
         if use_similarity_filter:
             log.debug("[%s] Parser debug | busca com similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
         
-            similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(name).lower())
+            similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(unquote(name)).lower())
             expected_value = sim_filter_minimum
             if similarity_value >= expected_value:
-                log.debug("[%s] Parser debug | Aceito pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+                log.debug("[%s] Parser debug | Aceito pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(unquote(name))))
             else:
-                log.debug("[%s] Parser debug | Bloqueado pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(name)))
+                log.debug("[%s] Parser debug | Bloqueado pelo similarity filter com valor %s (exigido %s) | Query: %s | Nome: %s" % (provider, similarity_value, expected_value, clean_words(query_value_from_provider), clean_words(unquote(name))))
                 continue
         else: log.debug("[%s] Parser debug | busca sem similaridade (pesos %s | %s | %s) por %s" % (provider, sim_filter_minimum, sim_filter_acceptable, sim_filter_good, name))
 

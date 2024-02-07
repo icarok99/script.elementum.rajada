@@ -14,7 +14,16 @@ def clean_words(querywords): # ToDO: put these words at settings.xml
     'trilogia', 'imax', 'remastered', '3d', 'stereoscopic', 'hdtv',
 	'----------abaixo-stopwords-dos-releasers----------',
     'tpf', '1win', 'rarbg', '210gji', '(by-luanharper)', 'comando.to', 'bludv', '(torrentus', 'filmes)', 'andretpf', 'jef', 'derew', 'fgt', 'filmestorrent',
-    'www', 'ThePirateFilmes']
+    'www', 'ThePirateFilmes',
+	'------- adicionado 07.02.24 --------------------',
+	'x264-rarbg', 'ddp', 'x264-cm', 'atmos-cm', 'r5', 'dv', 'mkv', 'eac3', 'dub-lapumia', 'x260bit',
+	'(dual' , 'audio)', 'aud', '[blu', 'ray]', '[1080p', '3d]', '(dublado)', '[dual]', '[bluray]',
+	'(720p)', '(1080p)', 'wolverdonfilmes', 'dvdrip', 'avi', 'xvid', 'brrip', 'x264-ion10', 'dat2014',
+	'x265-rarbg', 'mp3-xvid', 'uhd', 'rmvb', 'ptbr', 'srt', 'pt-br', 'dub', '264', 'd4v1', 'dd', '[eztv]',
+	'dual-baixarfilmesviatorrents', '(sd)', 'animestotais', 'dual-www', 'hmax', 'dual-cfhd', 'fullhd',
+	'ddp-cm', '264-www', '-legendado-', 'vemtorrent', '900mb', '1600mb', '[yts', 'mx]', '800mb',
+	'1400mb', 'repack', '8bit', 'comandotorrents', 'aac2', 'lapumia', 'ac3', 'encoder', 'extended'
+	]
     treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
     resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
     return ' '.join(resultwords)
