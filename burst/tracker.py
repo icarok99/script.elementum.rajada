@@ -48,10 +48,17 @@ TR_ISTOLE_URL = 'udp://tracker.istole.it:6969' # error at checking
 TR_TIMEOUT = 0.3
 
 TR_AND = '&tr='
-TR_FULL_STR = quote(TR_AND + TR_OPENBT1_URL + TR_AND + TR_OPENBT2_URL + TR_AND + TR_OPENTR_URL
-					+ TR_AND + TR_I2P_URL + TR_AND + TR_OPENDEMONII_URL + TR_AND + TR_STEALTH_URL
+TR_FULL_STR =   quote(TR_AND + TR_OPENBT1_URL
+					+ TR_AND + TR_OPENBT2_URL
+					+ TR_AND + TR_OPENTR_URL
+					+ TR_AND + TR_I2P_URL
+					+ TR_AND + TR_OPENDEMONII_URL
+					+ TR_AND + TR_STEALTH_URL
 					+ TR_AND + TR_EXPLODIE_URL
-					+ TR_AND + TR_PUBLICBT_URL + TR_AND + TR_ISTOLE_URL)
+					+ TR_AND + TR_AUCTOR_URL
+					+ TR_AND + TR_EU_URL
+					+ TR_AND + TR_PUBLICBT_URL
+					+ TR_AND + TR_ISTOLE_URL)
 
 class UdpTrackerAnnounceOutput:
     def __init__(self):
