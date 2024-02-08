@@ -5,9 +5,7 @@ def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 def to_exclude(text: str):
-	s = ['(2012-2013-2014-2015)', 'Listão de Filmes', 'Marcam Época', 'Baixar Filmes Indicados', 'Uploader:', 'JTAG-RGH', 'JOGOS PC GAMER',
-	'Top 10', '[ESPECIAL]'
-	]
+	s = ['(2012-2013-2014-2015)', 'Listão de Filmes', 'Marcam Época', 'Baixar Filmes Indicados', 'Uploader:', 'JTAG-RGH', 'JOGOS PC GAMER']
 	for i in s:
 		if i.lower() in text.lower(): return True
 	return False
@@ -35,7 +33,10 @@ def clean_words(querywords): # ToDO: put these words at settings.xml
 	'[dublado]', '[1080p-full]', '(2160p-4k)', 'dual-rk', 'ddp2', 'comoeubaixo', 'x264-extreme', 'bluray1080',
 	'viatorrents', 'aac-rarbg', '[multi-audio]', '[multi-subs]', '[comandotorrents', 'com]', '[webrip]',
 	'[dual', 'dsnp', 'up-beavery', '[bitsearch', 'to]', 'mpg', '(stereoscopic', 'dual-audio', '1080p[ultra',
-	'hd]', 'x264-dual', '(720p', 'bluray)', '(1080p', 'hdts-rip', 'ts', 'fhdrip', 'hdrip', 'megafilmestorrent'
+	'hd]', 'x264-dual', '(720p', 'bluray)', '(1080p', 'hdts-rip', 'ts', 'fhdrip', 'hdrip', 'megafilmestorrent',
+	'[extended]', '[repack]', '1080p_от', '[4k]', '[web]', 'rerip', 'dual-mld-acesse', 'wolverdon-filmes',
+	'hybridrip', '[bluray', 'rip][ac3', '[hevc]', '-dublado-', 'torrentdosfilmes', '[720p][multiple',
+	'[1080p][multiple', 'subtitle]', '950mb', '[2160p-4k]', 'dual-mld-bludv'
 	]
     treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
     resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]

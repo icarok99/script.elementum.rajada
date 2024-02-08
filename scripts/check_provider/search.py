@@ -107,6 +107,7 @@ def test_all_providers(i, j, limit = 5):
 	all_keys = list(j.keys())
 	index = all_keys.index(main_key)
 	br_keys = [x for x in all_keys if all_keys.index(x) >= index]
+	br_keys.reverse()
 	print('index: ', index)
 	#print(br_keys)
 
@@ -120,7 +121,7 @@ def test_all_providers(i, j, limit = 5):
 		subpage = j[site]["subpage"]
 		base_url = j[site]["base_url"].replace('QUERY', i).replace('EXTRA', '')
 
-		try: c = requests.get(base_url, headers=headers, timeout=4)
+		try: c = requests.get(base_url, headers=headers, timeout=7)
 		except Exception:
 			print('timeout', base_url)
 			continue

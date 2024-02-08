@@ -13,6 +13,8 @@ if __name__ == '__main__':
 	
 	j = read_json()
 	i = 'avatar'
+	#i = 'matrix'
+	#i = 'invasores de corpos'
 	#i = 'o iluminado'
 	#i = 'o vidente 2002'
 	#i = 'the last of us'
