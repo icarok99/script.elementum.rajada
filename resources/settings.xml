@@ -181,7 +181,7 @@
       <setting id="cinetorrent.com.br_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="cinetorrent.com.br_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 	
-	<setting label="[B]lapumia.co[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_lapumia.co" type="bool" default="false" />
+	<setting label="[B]lapumia.co[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_lapumia.co" type="bool" default="true" />
       <setting id="lapumia.co_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="lapumia.co_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -209,11 +209,11 @@
       <setting id="wolverdon.site_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="wolverdon.site_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 	
-	<setting label="[B]filmestorrent.tv[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrent.tv" type="bool" default="true" />
+	<setting label="[B]filmestorrent.tv[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrent.tv" type="bool" default="false" />
       <setting id="filmestorrent.tv_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmestorrent.tv_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]filmestorrents.pro[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrents.pro" type="bool" default="true" />
+	<setting label="[B]filmestorrents.pro[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrents.pro" type="bool" default="false" />
       <setting id="filmestorrents.pro_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmestorrents.pro_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -237,10 +237,6 @@
       <setting id="netjmx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="netjmx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]supertorrents.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_supertorrents.net" type="bool" default="false" />
-      <setting id="supertorrents.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
-      <setting id="supertorrents.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
-
 	<setting label="[B]emtorrents.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_emtorrents.com" type="bool" default="true" />
       <setting id="emtorrents.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="emtorrents.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
@@ -249,7 +245,7 @@
       <setting id="vamostorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="vamostorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]megatorrentsx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_megatorrentsx.com" type="bool" default="false" />
+	<setting label="[B]megatorrentsx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_megatorrentsx.com" type="bool" default="true" />
       <setting id="megatorrentsx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="megatorrentsx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -261,11 +257,11 @@
       <setting id="freefilmes.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="freefilmes.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]hiperflix.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_hiperflix.org" type="bool" default="true" />
-      <setting id="hiperflix.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
-      <setting id="hiperflix.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+	<setting label="[B]ontorrent.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_ontorrent.org" type="bool" default="true" />
+      <setting id="ontorrent.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="ontorrent.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]torrentfilmesx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentfilmesx.com" type="bool" default="false" />
+	<setting label="[B]torrentfilmesx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentfilmesx.com" type="bool" default="true" />
       <setting id="torrentfilmesx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfilmesx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
