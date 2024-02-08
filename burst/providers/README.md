@@ -19,7 +19,7 @@
 | gratistorrent.com       | index.php?s=QUERY             | 08.02.24 - Ok          | Y             |              | ondebaixo      |
 | insanostorrent.com      | ?s=QUERY                      | 08.02.24 - Ok          | Y             | Y            |                |
 | lapumia.co              | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
-| magnetdl.com            | ...                           | 08.02.24 - Ok          | Y             |              |                |
+| magnetdl.com            | ...                           | 08.02.24 - Ok          | Y             | Y            |                |
 | megatorrent4k.com       | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | megatorrentsx.com       | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | nerdfilmes.com.br       | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
@@ -27,7 +27,7 @@
 | ontorrent.org           | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | piratetorrentsxd.com    | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | semtorrent.com          | index.php?s=QUERY             | 08.02.24 - Ok          | Y             |              | ondebaixo      |
-| thepiratebay10.org      | ...                           | 08.02.24 - Ok          | Y             | Y            |                |
+| thepiratebay10.org      | ...                           | 08.02.24 - Ok          | N (spam)      | N            |                |
 | torrentdofilmes.com     | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              | comando        |
 | torrentdosfilmes.se     | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              | filmes torrent |
 | torrentdosfilmes.site   | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |

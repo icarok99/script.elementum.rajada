@@ -1278,14 +1278,16 @@
         "enabled": true,
         "general_extra": "",
         "general_keywords": "{title:br}",
+		"general_keywords_fallback": "{title:en}",
         "general_query": "",
         "language": null,
-        "languages": "en",
+        "languages": "en, br, pt",
         "login_failed": "",
         "login_object": "",
         "login_path": null,
         "movie_extra": "",
         "movie_keywords": "{title:br} {year}",
+		"movie_keywords_fallback": "{title:en} {year}",
         "movie_query": "",
         "name": "MagnetDL",
         "parser": {
@@ -2077,7 +2079,6 @@
     },
     "thepiratebay": {
         "anime_keywords": "{title:br} s{season:2}e{episode:2}",
-        "anime_keywords_fallback": "{title:en} s{season:2}e{episode:2}",
         "anime_query": "200",
         "base_url": "https://thepiratebay10.org/search/QUERYEXTRA/1/99/",
         "color": "FF5A3C22",
@@ -2086,13 +2087,12 @@
         "general_keywords": "{title:br}",
         "general_query": "200",
         "language": null,
-        "languages": "en",
+        "languages": "en, br, pt",
         "login_failed": "",
         "login_object": "",
         "login_path": null,
         "movie_extra": "",
 		"movie_keywords": "{title:br} {year}",
-        "movie_keywords_fallback": "{title:en} {year}",
         "movie_query": "200",
         "name": "The Pirate Bay",
         "parser": {
@@ -2110,7 +2110,6 @@
         "season_extra": "",
         "season_extra2": "",
         "season_keywords": "{title:br} s{season:2}",
-		"season_keywords_fallback": "{title:en} s{season:2}",
         "season_query": "200",
         "separator": "%20",
         "show_query": "200",
@@ -2118,8 +2117,7 @@
         "tor_dns_alias": "piratebayo3klnzokct3wt5yyxb2vpebbuyjl7m623iaxmqhsd52coid.onion",
         "tv_extra": "",
         "tv_extra2": "",
-        "tv_keywords": "{title:br} s{season:2}",
-        "tv_keywords_fallback": "{title:en} s{season:2}"
+        "tv_keywords": "{title:br} s{season:2}"
     },
     "tntvillage": {
         "anime_keywords": "{title} s{season:2}e{episode:2}",
