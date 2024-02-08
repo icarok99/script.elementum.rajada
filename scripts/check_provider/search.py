@@ -5,7 +5,7 @@ import requests
 import re
 
 from ehp_mod import *
-from similarity import similar, clean_words
+from similarity import similar, clean_words, to_exclude
 from pprint import pprint
 
 #headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -57,10 +57,12 @@ def mag_hash(name):
 	return r[0] if len(r) >= 1 else None
 
 def check_sim(q, name):
+	empty = ''
+	if name == '': empty = f"{bcolors.WARNING}magnet sem nome{bcolors.ENDC}"
 	q1 = clean_words(unquote(q)).lower()
 	name1 = clean_words(unquote(name)).lower()
 	result = round(similar(q1, name1), 3)
-	print(bcolors.HEADER, 'checking sim', q1, name1, simcolor(result))
+	print(f"{bcolors.HEADER} similarity - query:{q1} / name:{name1} - {simcolor(result)} {empty}")
 	return result
 
 def test_site(query, base_url, name, row, torrent, show_links = False):
@@ -99,7 +101,9 @@ def test_site(query, base_url, name, row, torrent, show_links = False):
 	return results
 
 def test_all_providers(i, j, limit = 5):
-	main_key = "cinetorrent.com.br" # first br provider
+	not_br_to_check = ['bitsearch', 'magnetdl', 'thepiratebay', 'torrentgalaxy', 'yts']
+	main_key = 'filebase' # last not br provider
+	#main_key = "cinetorrent.com.br" # first br provider
 	all_keys = list(j.keys())
 	index = all_keys.index(main_key)
 	br_keys = [x for x in all_keys if all_keys.index(x) >= index]
@@ -109,21 +113,27 @@ def test_all_providers(i, j, limit = 5):
 	results = []
 	unique_results = {}
 
-	for site in br_keys:
+	for site in br_keys + not_br_to_check:
 		name = j[site]["parser"]["name"]
 		row = j[site]["parser"]["row"]
 		torrent = j[site]["parser"]["torrent"]
 		subpage = j[site]["subpage"]
 		base_url = j[site]["base_url"].replace('QUERY', i).replace('EXTRA', '')
 
-		c = requests.get(base_url, headers=headers)
+		try: c = requests.get(base_url, headers=headers, timeout=4)
+		except Exception:
+			print('timeout', base_url)
+			continue
 
 		dom = Html().feed(c.text)
 		if dom == None:
 			print('\ndom is none for site ', site)
 			continue
 
-		items = eval('dom.' + row)
+		try: items = eval('dom.' + row)
+		except:
+			print('items eval error for', site)
+			continue
 		#breaks = '\n\n'
 		breaks = '\n'
 		print(breaks, f'{bcolors.OKGREEN}NEW PROVIDER{bcolors.ENDC}')
@@ -133,8 +143,11 @@ def test_all_providers(i, j, limit = 5):
 			if not item: continue
 			n = eval(name)
 			t = eval(torrent)
-			if subpage and not t.startswith('magnet'):
-				s = requests.get(t, headers=headers)
+			if subpage and not t.startswith('magnet') and not to_exclude(n):
+				try: s = requests.get(t, headers=headers, timeout=4)
+				except Exception:
+					print('timeout', t)
+					continue
 				links = extract(s.text)
 				print(n, t, 'subpage links ', len(links) if links != None else None)
 				
@@ -143,20 +156,23 @@ def test_all_providers(i, j, limit = 5):
 						results.append([n, len(links), check_sim(i, mag_name(rl)), mag_name(rl), rl])
 						
 						#print(rl)
-						if mag_hash(rl) not in unique_results.keys() and 'Uploader:' not in n and 'Listão' not in n:
+						if mag_hash(rl) not in unique_results.keys():
 							unique_results[mag_hash(rl)] = {'n':mag_name(rl), 'f':rl}
-						elif mag_hash(rl) in unique_results.keys() and len(rl) > len(unique_results[mag_hash(rl)]['f']) and 'Uploader:' not in n and 'Listão' not in n:
+						elif mag_hash(rl) in unique_results.keys() and len(rl) > len(unique_results[mag_hash(rl)]['f']):
 							unique_results[mag_hash(rl)] = {'n':mag_name(rl), 'f':rl}
 				
 			else:
-				print(n, t)
+				print(f"{n}")
+				check_sim(i, mag_name(t))
 				results.append([n, t, 'place', 'place', 'place'])
 
 			counter += 1
 			#if counter == limit: break
 
 		#yield results
-	print('\n\n\n'); pprint(unique_results)
+	print('\n\n\n')
+	ans = input('Show all magnets? [Y][n]')
+	if ans == 'Y': pprint(unique_results)
 	#yield results
 
 
