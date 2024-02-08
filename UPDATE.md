@@ -2,7 +2,7 @@
 
 ### Add provider
 
-1. add entry to providers.json
+1. add entry to providers.json (color MUST be `FFF14E13` if brazilian)
 2. add provider icon to `.../providers/icons/` folder
 3. use check_provider scripts to assert provider is working
 4. update settings.xml

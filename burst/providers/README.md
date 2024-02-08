@@ -14,19 +14,21 @@
 | filmestorrents.pro      | ?s=QUERY                      | 08.02.24 - Ok          | N (slow)      |              |                |
 | filmeviatorrents.org    | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | freefilmes.net          | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
+| gratistorrent.com       | index.php?s=QUERY             | 08.02.24 - Ok          | Y             |              |                |
 | insanostorrent.com      | ?s=QUERY                      | 08.02.24 - Ok          | Y             | Y            |                |
 | lapumia.co              | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | magnetdl.com            | ...                           | 08.02.24 - Ok          | Y             |              |                |
-| megatorrentsx.com       | ?s=QUERY                      | 08.02.24 - On          | Y             |              |                |
+| megatorrentsx.com       | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | nerdfilmes.com.br       | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | netjmx.com              | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | ontorrent.org           | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
+| piratetorrentsxd.com    | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
 | semtorrent.com          | index.php?s=QUERY             | 08.02.24 - Ok          | Y             |              | ondebaixo      |
 | thepiratebay10.org      | ...                           | 08.02.24 - Ok          | Y             | Y            |                |
 | torrentdofilmes.com     | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              | comando        |
 | torrentdosfilmes.se     | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              | filmes torrent |
 | torrentdosfilmes.site   | ?s=QUERY                      | 08.02.24 - Ok          | Y             |              |                |
-| torrentfilmesx.com      | /search/?q=QUERY              | 08.02.24 - On          | Y             |              |                |
+| torrentfilmesx.com      | /search/?q=QUERY              | 08.02.24 - Ok          | Y             |              |                |
 | torrentgalaxy.to        | ...&lang=15                   | 08.02.24 - Ok          | Y (1win dub)  |              |                |
 | vamostorrent.com        | index.php?s=QUERY             | 08.02.24 - Ok          | Y             |              | ondebaixo      |
 | wolverdon.site          | ?s=QUERY                      | 08.02.24 - Ok          | Y             | Y            | comando        |

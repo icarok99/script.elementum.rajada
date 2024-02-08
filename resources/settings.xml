@@ -265,6 +265,14 @@
       <setting id="torrentfilmesx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfilmesx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
+	<setting label="[B]piratetorrentsxd.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_piratetorrentsxd.com" type="bool" default="true" /> 
+      <setting id="piratetorrentsxd.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="piratetorrentsxd.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]gratistorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_gratistorrent.com" type="bool" default="true" />
+      <setting id="gratistorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="gratistorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
 	<!-- Providers-Brazil-End -->
   </category> 
 
@@ -535,7 +543,7 @@
 	<!--
 		Blocking ads, recommended movie lists and other unuseful results
 	-->
-    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH, JOGOS PC GAMER, Top 10, [ESPECIAL]" subsetting="true" enable="eq(-3,true)" />
+    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH, JOGOS PC GAMER" subsetting="true" enable="eq(-3,true)" />
     <setting label="32017" id="require" type="text" default="" subsetting="true" enable="eq(-4,true)" />
     <setting label="32018" id="kodi_language" type="bool" default="false" />
     <setting label="32050" id="language_exceptions" type="text" subsetting="true" enable="eq(-1,true)" />

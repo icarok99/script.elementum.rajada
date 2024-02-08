@@ -86,3 +86,4 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 - @scakemyer pelo módulo inicial do Quasar Burst
 - @mancuniancol por seu trabalho no Magnetic
 - @elgatito pelo módulo [Elementum Burst](https://github.com/elgatito/script.elementum.burst)
+- @icarok99 pela ajuda com os provedores
