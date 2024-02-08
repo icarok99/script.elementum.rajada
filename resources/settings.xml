@@ -21,7 +21,7 @@
 
 	<setting label="32220" type="lsep" />
 	<setting label="32221" id="show_providers_name" type="bool" default="false" />
-	<setting label="32222" id="check_seeders_peers" type="bool" default="false" />
+	<setting label="32222" id="check_seeders_peers" type="bool" default="true" />
 	<setting label="32223" id="custom_elementum_settings" type="bool" default="false" />
 	<setting label="32224" type="action" action="RunScript(script.elementum.rajada,update_providers)" option="close" />
 
@@ -539,7 +539,7 @@
 	<!--
 		Blocking ads, recommended movie lists and other unuseful results
 	-->
-    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH, JOGOS PC GAMER" subsetting="true" enable="eq(-3,true)" />
+    <setting label="32039" id="block" type="text" default="(2012-2013-2014-2015), Listão de Filmes, Marcam Época, Baixar Filmes Indicados, Uploader:, JTAG-RGH, JOGOS PC GAMER, Top 10, [ESPECIAL]" subsetting="true" enable="eq(-3,true)" />
     <setting label="32017" id="require" type="text" default="" subsetting="true" enable="eq(-4,true)" />
     <setting label="32018" id="kodi_language" type="bool" default="false" />
     <setting label="32050" id="language_exceptions" type="text" subsetting="true" enable="eq(-1,true)" />

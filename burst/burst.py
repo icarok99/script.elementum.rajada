@@ -472,7 +472,13 @@ def clean_words(querywords): # ToDO: put these words at settings.xml
 	'x265-rarbg', 'mp3-xvid', 'uhd', 'rmvb', 'ptbr', 'srt', 'pt-br', 'dub', '264', 'd4v1', 'dd', '[eztv]',
 	'dual-baixarfilmesviatorrents', '(sd)', 'animestotais', 'dual-www', 'hmax', 'dual-cfhd', 'fullhd',
 	'ddp-cm', '264-www', '-legendado-', 'vemtorrent', '900mb', '1600mb', '[yts', 'mx]', '800mb',
-	'1400mb', 'repack', '8bit', 'comandotorrents', 'aac2', 'lapumia', 'ac3', 'encoder', 'extended'
+	'1400mb', 'repack', '8bit', 'comandotorrents', 'aac2', 'lapumia', 'ac3', 'encoder', 'extended',
+	'x264-cinefile[rartv]', 'vers&atilde;o', 'ramontpb', '-dublado-dual-audio-', 'rapidotorrents',
+	'vamostorrent', '480p', 'mp4', 'dublado-www', 'vacatorrent', 'comandotorrentshd', 'dual-wolverdonfilmes',
+	'[dublado]', '[1080p-full]', '(2160p-4k)', 'dual-rk', 'ddp2', 'comoeubaixo', 'x264-extreme', 'bluray1080',
+	'viatorrents', 'aac-rarbg', '[multi-audio]', '[multi-subs]', '[comandotorrents', 'com]', '[webrip]',
+	'[dual', 'dsnp', 'up-beavery', '[bitsearch', 'to]', 'mpg', '(stereoscopic', 'dual-audio', '1080p[ultra',
+	'hd]', 'x264-dual', '(720p', 'bluray)', '(1080p', 'hdts-rip', 'ts', 'fhdrip', 'hdrip', 'megafilmestorrent'
 	]
     treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
     resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]
