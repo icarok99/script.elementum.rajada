@@ -360,15 +360,21 @@ def search(payload, method="general"):
                 not_br_results = missing_results - len(results_to_check)
                 missing_results -= not_br_results # remove non brazilian entries from counter
                 for f in as_completed(futures):
-                    pool_result = f.result()
+                    try: pool_result = f.result()
+                    except Exception: continue
                     message = translation(32254) % missing_results
                     if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
                     timer = time.time() - providers_time
                     log.debug("Timer: %ds / %ds" % (timer, timeout))
                     if timer + 4 >= timeout:
-                        log.debug("Timer reached Timeout for ThreadPool tracker checking")
+                        cancel_list = [fut.cancel() for fut in futures]; cancel_str = '%s cancel ok / %s cancel fail' % (cancel_list.count(True), cancel_list.count(False))
+                        log.debug("Timer reached Timeout for ThreadPool tracker checking - %s" % cancel_str)
                         break
                     for r in results_to_check:
+                        if timer + 4 >= timeout:
+                            cancel_list = [fut.cancel() for fut in futures]; cancel_str = '%s cancel ok / %s cancel fail' % (cancel_list.count(True), cancel_list.count(False))
+                            log.debug("Timer reached Timeout (inside results_to_check loop) for ThreadPool tracker checking - %s" % cancel_str)
+                            break
                         if r['info_hash'] in already_checked_hashes:
                             continue
                         if r['info_hash'] == pool_result[0]: # same hash
@@ -586,7 +592,7 @@ def extract_torrents(provider, client):
                     magnet_name = re.findall(r'[?&(&amp;)]dn=([^&]+).*', torrent_item) # r'&dn=(.*?)&'
                     infohash_regex = re.findall(r'urn:btih:([a-zA-Z0-9]+).*', torrent_item)
                     infohash_value = infohash_regex[0] if infohash_regex else info_hash
-                    torrent_name = unquote(magnet_name[0]) if len(magnet_name) >= 1 else name
+                    torrent_name = unquote(magnet_name[0]) if len(magnet_name) >= 1 else unquote(name)
 
                     if len(magnet_name) >= 1: ret = (id, t_name + similarity_color + unquote(magnet_name[0]) + c_close, infohash_value, torrent_item, size_item, seeds, peers)
                     else: ret = (id, s_name + name, infohash_value, torrent_item, size_item, seeds, peers) # name already come with color tag
@@ -597,6 +603,7 @@ def extract_torrents(provider, client):
                         # remove color tag from name, when (S)
                         parsed_torrent_name = re.sub(r'\[\/color\]', '', torrent_name, flags=re.IGNORECASE)
                         parsed_torrent_name = re.sub(r'\[color[\sa-zA-Z0-9]*\]', '', parsed_torrent_name, flags=re.IGNORECASE)
+                        parsed_torrent_name = parsed_torrent_name.replace('(S)', '')
                         # similarity check
                         similarity_value = similar(clean_words(query_value_from_provider).lower(), clean_words(unquote(parsed_torrent_name)).lower())
                         expected_value = sim_filter_minimum - sim_filter_tolerance
