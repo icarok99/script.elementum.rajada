@@ -200,7 +200,7 @@ msgstr ""
 
 msgctxt "#32096"
 msgid "Enabled"
-msgstr ""
+msgstr "Ativo"
 
 msgctxt "#32097"
 msgid "Host"
@@ -384,19 +384,19 @@ msgstr ""
 
 msgctxt "#32200"
 msgid "Similarity Filter Weights"
-msgstr ""
+msgstr "Filtro de Similaridade"
 
 msgctxt "#32201"
 msgid "Minimum"
-msgstr ""
+msgstr "Mínimo"
 
 msgctxt "#32202"
 msgid "Acceptable"
-msgstr ""
+msgstr "Aceitável"
 
 msgctxt "#32203"
 msgid "Good"
-msgstr ""
+msgstr "Bom"
 
 msgctxt "#32220"
 msgid "Rajada Settings"
@@ -453,3 +453,7 @@ msgstr "%s Links não Verificados devido Timeout"
 msgctxt "#32256"
 msgid "Brazilian Tracker"
 msgstr "Tracker Brasileiro"
+
+msgctxt "#32257"
+msgid "Ignore magnets without name"
+msgstr "Ignorar links sem nome"

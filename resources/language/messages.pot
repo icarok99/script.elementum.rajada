@@ -454,3 +454,7 @@ msgstr ""
 msgctxt "#32256"
 msgid "Brazilian Tracker"
 msgstr ""
+
+msgctxt "#32257"
+msgid "Ignore magnets without name"
+msgstr ""
