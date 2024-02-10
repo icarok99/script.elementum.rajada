@@ -545,7 +545,8 @@
     "eztv": {
         "anime_extra": null,
         "anime_keywords": "'{title:original}' s{season:2}e{episode:2}",
-        "base_url": "https://eztv.re/search/QUERYEXTRA",
+        "base_url": "https://eztvx.to/search/QUERYEXTRA",
+        "post_data": "{'layout': 'def_wlinks'}",
         "color": "FF0F559D",
         "enabled": true,
         "general_extra": "",
@@ -2220,7 +2221,7 @@
         "anime_keywords2": "{title} {season:2}x01|S{season:2}",
         "anime_keywords_fallback": "{title} s{season:2}",
         "anime_query": "anime/torrents/QUERYEXTRA.html?sort=seeds&order=desc",
-        "base_url": "https://www.torlock2.com/",
+        "base_url": "https://www.torlock.com/",
         "color": "FFE8C233",
         "enabled": true,
         "filter_title": true,
@@ -2243,7 +2244,7 @@
             "row": "find_once('div', ('class', ['panel', 'panel-default'])).find_all('tr', start=1)",
             "seeds": "item(tag='td', order=4)",
             "size": "item(tag='td', order=3)",
-            "torrent": "'https://www.torlock2.com/tor/%s.torrent' % item(tag='a', attribute='href', divider=('/', 2))"
+            "torrent": "'https://www.torlock.com/tor/%s.torrent' % item(tag='a', attribute='href', divider=('/', 2))"
         },
         "predefined": false,
         "private": false,
@@ -2420,7 +2421,7 @@
             "infohash": "",
             "name": "item('a')",
             "peers": "item(tag='td', order=5)",
-            "row": "find_once('table', order=4).find_all('tr')",
+            "row": "find_once('table', select=('class', 'tmain'), order=2).find_all('tr', start=2)",
             "seeds": "item(tag='td', order=4)",
             "size": "item(tag='td', order=3)",
             "torrent": "'https://www.torrentfunk.com/tor/%s.torrent' % item(tag='a', attribute='href', divider=('/', 2))"
@@ -2446,7 +2447,7 @@
         "anime_keywords_fallback": "{title:original} s{season:2}",
         "anime_query": "",
         "base_url": "https://torrentgalaxy.to/torrents.php?c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c41=1&c5=1&c6=1&c7=1&c11=1&search=QUERYEXTRA&nox=2&sort=seeders&order=desc",
-        "color": "FFFFFFFF",
+        "color": "FFD9BD03",
         "enabled": true,
         "general_extra": "&lang=15",
         "general_keywords": "{title:br}",
@@ -2478,6 +2479,7 @@
         "season_extra2": "",
         "season_keywords": "{title:original} season {season:2}",
         "season_keywords2": "{title:original} s{season:2}",
+        "season_keywords3": "{imdb_id} s{season:2}",
         "season_query": "",
         "separator": "+",
         "show_query": "",
@@ -2485,6 +2487,7 @@
         "tv_extra": "&lang=15",
         "tv_extra2": "",
         "tv_keywords": "{title:original} s{season:2}e{episode:2}",
+        "tv_keywords2": "{imdb_id} s{season:2}e{episode:2}",
         "tv_keywords_fallback": "{title:br} s{season:2}"
     },
     "torrentleech": {
@@ -2831,10 +2834,10 @@
         "parser": {
             "infohash": "",
             "name": "item('a')",
-            "peers": "item(tag='td', order=5)",
-            "row": "find_once('div', ('class', 'contentmain')).find_once('table', ('class', ['table', 'table-sm', 'table-striped']), order=2).find_all('tr')",
-            "seeds": "item(tag='td', order=4)",
-            "size": "item(tag='td', order=2)",
+            "peers": "item(tag='td', order=6)",
+            "row": "find_once('div', ('class', 'table-responsive'), order=2).find_all('tr', start=2)",
+            "seeds": "item(tag='td', order=5)",
+            "size": "item(tag='td', order=3)",
             "torrent": "'https://yourbittorrent.com/down/%s.torrent' % item(tag='a', attribute='href', divider=('/', 2))"
         },
         "predefined": false,

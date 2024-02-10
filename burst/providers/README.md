@@ -33,7 +33,7 @@
 | torrentdosfilmes.se     | ?s=QUERY                      | 08.02.24 - Ok          | Y                   |              | filmes torrent |
 | torrentdosfilmes.site   | ?s=QUERY                      | 08.02.24 - Ok          | Y                   |              |                |
 | torrentfilmesx.com      | /search/?q=QUERY              | 08.02.24 - Ok          | Y                   |              |                |
-| torrentgalaxy.to        | ...&lang=15                   | 08.02.24 - Ok          | N (1win dub, slow)  |              |                |
+| torrentgalaxy.to        | ...&lang=15                   | 08.02.24 - Ok          | Y (1win dub, slow)  |              |                |
 | vamostorrent.com        | index.php?s=QUERY             | 08.02.24 - Ok          | Y                   |              | ondebaixo      |
 | wolverdon.fun           | ?s=QUERY                      | 08.02.24 - Ok          | Y                   |              |                |
 | wolverdon.site          | ?s=QUERY                      | 08.02.24 - Ok          | Y                   | Y            | comando        |
