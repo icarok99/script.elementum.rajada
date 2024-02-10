@@ -758,7 +758,7 @@ class Filtering:
             for lang in definition['languages'].split(","):
                 self.add_provider_language(self.convert_language(lang))
 
-def apply_filters(results_list):
+def apply_filters(results_list, process_sizes = False):
     """ Applies final result de-duplicating, hashing and sorting
 
     Args:
@@ -767,12 +767,12 @@ def apply_filters(results_list):
     Returns:
         list: Filtered and sorted results
     """
-    results_list = cleanup_results(results_list)
+    results_list = cleanup_results(results_list, process_sizes)
 
     return results_list
 
 
-def cleanup_results(results_list):
+def cleanup_results(results_list, process_sizes = False):
     """ Remove duplicate results, hash results without an info_hash, and sort by seeders
 
     Args:
@@ -817,23 +817,42 @@ def cleanup_results(results_list):
                 pass
 
         # rajada: pass size to all results with same hash
-        if "FFF14E13" in result['provider']: # only br providers
+        if "FFF14E13" in result['provider'] and process_sizes: # only br providers
             result['size'] = result['size'].replace('GiB', 'GB')
+            current_list = dict_hash_size[hash_] if hash_ in dict_hash_size.keys() else None
+            common_item = False
             if result['size'] != '' and len(result['size']) > 2 and hash_ not in dict_hash_size.keys():
-                dict_hash_size[hash_] = result['size']
+                dict_hash_size[hash_] = [result['size']]
                 #log.debug("[COLOR gold]FIRST SIZE (%s) for hash %s[/COLOR]" % (result['size'], hash_))
-            elif result['size'] != '' and hash_ in dict_hash_size.keys() and (len(result['size']) > len(dict_hash_size[hash_])):
-                #log.debug("[COLOR gold]REPLACED SIZE (%s) with (%s) for hash %s[/COLOR]" % (dict_hash_size[hash_], result['size'], hash_))
-                dict_hash_size[hash_] = result['size']
+            elif result['size'] != '' and hash_ in dict_hash_size.keys() and len(result['size']) > 2: #len(dict_hash_size[hash_])):
+                #log.debug("[COLOR gold]APPEND SIZE AT (%s) with value (%s) for hash %s[/COLOR]" % (current_list, result['size'], hash_))
+                current_list.append(result['size'])
+                #dict_hash_size[hash_] = sorted(current_list, key=lambda x: current_list.count(x), reverse=True)
+                #result['size'] = dict_hash_size[hash_][0]
+                dict_hash_size[hash_] = current_list
+                common_item = True
             elif len(result['size']) < 3 and hash_ in dict_hash_size.keys():
-                result['size'] = dict_hash_size[hash_]
-                #log.debug("[COLOR gold]NEW SIZE (%s) for hash %s[/COLOR]" % (result['size'], hash_))
-                # update filtered list JIC
+                #dict_hash_size[hash_] = sorted(current_list, key=lambda x: current_list.count(x), reverse=True)
+                #result['size'] = dict_hash_size[hash_][0]
+                common_item = True
+                #log.debug("[COLOR gold]NEW SIZE (crrt is bad: %s) for hash %s and list %s[/COLOR]" % (result['size'], hash_, current_list))
+            elif len(result['size']) < 3 and hash_ not in dict_hash_size.keys():
+                #log.debug("[COLOR gold]WOULD BE NEW SIZE (%s) for hash %s[/COLOR]" % (result['size'], hash_) )
+                result['size'] = ''
+            else:
+                #common_item = max(set(current_list), key = current_list.count)
+                #log.debug("[COLOR gold]LAST CASE (%s) for hash %s and list %s[/COLOR]" % (result['size'], hash_, current_list))
+                result['size'] = ''
+
+            if common_item:
+                common_item = max(set(current_list), key = current_list.count)
+				# current item
+                result['size'] = common_item
+                # update filtered list JIC (backtracking)
                 for item in filtered_list:
                     if item['info_hash'] == hash_ and "FFF14E13" in item['provider']:
-                        item['size'] = dict_hash_size[hash_]
-            else:
-                result['size'] = ''
+                        #item['size'] = dict_hash_size[hash_][0]
+                        item['size'] = common_item
 
         # Make sure all are upper-case and provider-scoped
         hash_ = result['provider'] + hash_.upper()

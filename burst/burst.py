@@ -273,7 +273,7 @@ def search(payload, method="general"):
 
     log.debug("all provider_results of %d: %s" % (len(provider_results), repr(provider_results)))
 
-    filtered_results = apply_filters(provider_results)
+    filtered_results = apply_filters(provider_results, process_sizes=True)
 
     log.debug("all filtered_results of %d: %s" % (len(filtered_results), repr(filtered_results)))
 
