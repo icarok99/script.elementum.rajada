@@ -484,7 +484,11 @@ def clean_words(querywords): # ToDO: put these words at settings.xml
 	'[dublado]', '[1080p-full]', '(2160p-4k)', 'dual-rk', 'ddp2', 'comoeubaixo', 'x264-extreme', 'bluray1080',
 	'viatorrents', 'aac-rarbg', '[multi-audio]', '[multi-subs]', '[comandotorrents', 'com]', '[webrip]',
 	'[dual', 'dsnp', 'up-beavery', '[bitsearch', 'to]', 'mpg', '(stereoscopic', 'dual-audio', '1080p[ultra',
-	'hd]', 'x264-dual', '(720p', 'bluray)', '(1080p', 'hdts-rip', 'ts', 'fhdrip', 'hdrip', 'megafilmestorrent'
+	'hd]', 'x264-dual', '(720p', 'bluray)', '(1080p', 'hdts-rip', 'ts', 'fhdrip', 'hdrip', 'megafilmestorrent',
+	'[extended]', '[repack]', '1080p_от', '[4k]', '[web]', 'rerip', 'dual-mld-acesse', 'wolverdon-filmes',
+	'hybridrip', '[bluray', 'rip][ac3', '[hevc]', '-dublado-', 'torrentdosfilmes', '[720p][multiple',
+	'[1080p][multiple', 'subtitle]', '950mb', '[2160p-4k]', 'dual-mld-bludv', '[bd', '1080p][hevc',
+	'10bit][multi-audio][multi-subs]', '[480p][multiple'
 	]
     treated_word = querywords.replace('+', ' ').replace('5.1','').replace('7.1','').replace('.',' ').replace("'","").replace(':','')
     resultwords  = [word for word in treated_word.split() if not word.lower() in words_to_remove]

@@ -145,12 +145,15 @@ def test_all_providers(i, j, limit = 5):
 			n = eval(name)
 			t = eval(torrent)
 			if subpage and not t.startswith('magnet') and not to_exclude(n):
+				print(n, t)
+				if check_sim(i, n) < sim_min:
+					continue
 				try: s = requests.get(t, headers=headers, timeout=4)
 				except Exception:
 					print('timeout', t)
 					continue
 				links = extract(s.text)
-				print(n, t, 'subpage links ', len(links) if links != None else None)
+				print('    subpage links ', len(links) if links != None else None)
 				
 				if links != None:
 					for rl in links:
