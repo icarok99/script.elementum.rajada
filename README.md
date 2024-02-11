@@ -55,12 +55,14 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 **0.5**
 
 - provedores atualizados
+- filtro de similaridade melhorado
+- traduções atualizadas
 - obtendo tamanho dos magnets via regex quando possível
 - nova ação para atualizar manualmente os provedores (settings.xml e providers.json)
 - atualizado script para verificar resultados dos provedores
 - resolvido bug de conexão do socket
 - resolvido bug de números negativos no contador de links
-- resolvido bug de timeout para max_results muito alto
+- resolvido bug de timeout (nenhum link encontrado) para max_results muito alto
 
 **0.4**
 
