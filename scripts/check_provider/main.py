@@ -7,10 +7,10 @@ from gui import SearchApp
 
 def query_correction(q):
     q = q.lower()
-    q = q.replace(':', '')
-    q = q.replace(',', '')
-    q = q.replace('!', '')
-    q = q.replace('-', '')
+    q = q.replace(':', ' ')
+    q = q.replace(',', ' ')
+    q = q.replace('!', ' ')
+    q = q.replace('-', ' ')
     q = q.replace('+', ' ') # year explorer
     for part in range(1,10):
         q = q.replace(' parte %s' % part, ' ')
@@ -27,10 +27,12 @@ if __name__ == '__main__':
 	#bu = bu.replace('EXTRA', ' [Dublado Portugues]') # perde resultados
 	
 	j = read_json()
-	#i = 'avatar 2009'
+	i = 'avatar 2009'
 	#i = 'gen v s01e01'
 	#i = 'the walking dead 1 temporada'
-	i = 'liga da justiça: crise nas infinitas terras - parte 1 2024'
+	#i = 'liga da justiça: crise nas infinitas terras - parte 1 2024'
+	#i = 'homem-aranha:através do aranhaverso! 2023'
+	#i = 'star wars: o império contra-ataca 1980'
 	#i = 'Batem à Porta 2023'
 	#i = 'Harry Potter e as Relíquias da Morte: Parte 2 2011'
 	#i = 'matrix'

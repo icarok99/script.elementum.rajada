@@ -137,10 +137,10 @@ new_timeout = timeout - timeout_offset if check_seeders_peers else timeout # 37-
 
 def query_correction(q): # rajada: apply some useful changes to query
     q = q.lower()
-    q = q.replace(':', '')
-    q = q.replace(',', '')
-    q = q.replace('!', '')
-    q = q.replace('-', '')
+    q = q.replace(':', ' ')
+    q = q.replace(',', ' ')
+    q = q.replace('!', ' ')
+    q = q.replace('-', ' ')
     q = q.replace('+', ' ') # year explorer
     for part in range(1,10):
         q = q.replace(' parte %s' % part, ' ')
