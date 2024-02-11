@@ -4,6 +4,21 @@ from PyQt5.QtWidgets import QApplication
 from search import read_json, make_rules, test_site, test_all_providers
 from gui import SearchApp
 
+
+def query_correction(q):
+    q = q.lower()
+    q = q.replace(':', '')
+    q = q.replace(',', '')
+    q = q.replace('!', '')
+    q = q.replace('-', '')
+    q = q.replace('+', ' ') # year explorer
+    for part in range(1,10):
+        q = q.replace(' parte %s' % part, ' ')
+        q = q.replace(' parte 0%s' % part, ' ')
+        q = q.replace(' parte %s' % 'i'*part, ' ')
+    return q
+
+
 if __name__ == '__main__':
 
 	bu = ''
@@ -12,9 +27,12 @@ if __name__ == '__main__':
 	#bu = bu.replace('EXTRA', ' [Dublado Portugues]') # perde resultados
 	
 	j = read_json()
-	i = 'avatar'
+	#i = 'avatar 2009'
 	#i = 'gen v s01e01'
-	i = 'the walking dead 1 temporada'
+	#i = 'the walking dead 1 temporada'
+	i = 'liga da justiça: crise nas infinitas terras - parte 1 2024'
+	#i = 'Batem à Porta 2023'
+	#i = 'Harry Potter e as Relíquias da Morte: Parte 2 2011'
 	#i = 'matrix'
 	#i = 'invasores de corpos'
 	#i = 'o iluminado'
@@ -82,6 +100,7 @@ if __name__ == '__main__':
 	#	'parsing_torrent': "item(tag='a', select=('class', 'dl-magnet'), attribute='href', order=1)"
 	#}
 
+	i = query_correction(i)
 
 	#print(pp)
 	#test_site(i, bu.replace('QUERY', i), pp['parsing_name'], pp['parsing_row'], pp['parsing_torrent'], False)

@@ -78,10 +78,11 @@ except ImportError: # rajada: if python < 3, multithread checking of tracker is 
 elementum_addon = xbmcaddon.Addon(id='plugin.video.elementum')
 if elementum_addon:
     # rajada: set elementum timeout due to bad behaviour
+	# elementum default: 30 / burst default: 25
 	# ref: https://github.com/elgatito/plugin.video.elementum/issues/414
 	# ref: https://github.com/elgatito/plugin.video.elementum/issues/675
     if check_seeders_peers and elementum_addon.getSetting('custom_provider_timeout_enabled') == 'false':
-        elementum_custom_timeout = '70'
+        elementum_custom_timeout = '40'
         elementum_addon.setSetting('custom_provider_timeout_enabled', 'true')
         elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
         notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
@@ -89,6 +90,7 @@ if elementum_addon:
     if not check_seeders_peers and elementum_addon.getSetting('custom_provider_timeout_enabled') == 'true':
         elementum_custom_timeout = '40'
         elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
+        notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
 
     # in case of disabled checking and provider timeout equals false, we do nothing
 
@@ -130,8 +132,21 @@ elif elementum_timeout > 0 and timeout > elementum_timeout - 3:
     log.info("Redefining timeout to be less than Elementum's: %d to %d seconds" % (timeout, elementum_timeout - 3))
     timeout = elementum_timeout - 3
 
-timeout_offset = int(elementum_timeout / 2) - 7 # rajada: offset to split providers/trackers checking
-new_timeout = timeout - timeout_offset if check_seeders_peers else timeout
+timeout_offset = int(elementum_timeout / 2) - 7 # rajada: offset to split providers/trackers checking (40/2 - 7 = 13)
+new_timeout = timeout - timeout_offset if check_seeders_peers else timeout # 37-13=24 for providers and 13 for tracker
+
+def query_correction(q): # rajada: apply some useful changes to query
+    q = q.lower()
+    q = q.replace(':', '')
+    q = q.replace(',', '')
+    q = q.replace('!', '')
+    q = q.replace('-', '')
+    q = q.replace('+', ' ') # year explorer
+    for part in range(1,10):
+        q = q.replace(' parte %s' % part, ' ')
+        q = q.replace(' parte 0%s' % part, ' ')
+        q = q.replace(' parte %s' % 'i'*part, ' ')
+    return q
 
 def search(payload, method="general"):
     """ Main search entrypoint
@@ -150,12 +165,14 @@ def search(payload, method="general"):
 
     if method == 'general':
         if 'query' in payload:
+            payload['query'] = query_correction(payload['query'])
             payload['title'] = payload['query']
             payload['titles'] = {
                 'source': payload['query'],
                 'original': payload['query']
             }
         else:
+            payload = query_correction(payload)
             payload = {
                 'title': payload,
                 'titles': {
@@ -324,7 +341,7 @@ def search(payload, method="general"):
                 if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
                 timer = time.time() - providers_time
                 log.debug("Timer: %ds / %ds" % (timer, timeout))
-                if timer + 4 >= timeout:
+                if timer + 5 >= timeout:
                     log.debug("Timer reached Timeout for sequential tracker checking")
                     break
                 result_hash, parsed_seeds, parsed_peers = get_torrent_info(r)
@@ -366,12 +383,12 @@ def search(payload, method="general"):
                     if not payload['silent']: p_dialog.update(int((total_results - missing_results) / total_results * 100), message=message)
                     timer = time.time() - providers_time
                     log.debug("Timer: %ds / %ds" % (timer, timeout))
-                    if timer + 4 >= timeout:
+                    if timer + 5 >= timeout:
                         cancel_list = [fut.cancel() for fut in futures]; cancel_str = '%s cancel ok / %s cancel fail' % (cancel_list.count(True), cancel_list.count(False))
                         log.debug("Timer reached Timeout for ThreadPool tracker checking - %s" % cancel_str)
                         break
                     for r in results_to_check:
-                        if timer + 4 >= timeout:
+                        if timer + 5 >= timeout:
                             cancel_list = [fut.cancel() for fut in futures]; cancel_str = '%s cancel ok / %s cancel fail' % (cancel_list.count(True), cancel_list.count(False))
                             log.debug("Timer reached Timeout (inside results_to_check loop) for ThreadPool tracker checking - %s" % cancel_str)
                             break

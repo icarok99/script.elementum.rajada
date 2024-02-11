@@ -788,7 +788,7 @@ def cleanup_results(results_list, process_sizes = False):
     filtered_list = []
     
     dict_hash_size = {} # rajada: if some provider got size, we copy it to the others
-    results_list = sorted(results_list, key=lambda r: len(r['size']), reverse=True) # rajada: assert results with size come first
+    #results_list = sorted(results_list, key=lambda r: len(r['size']), reverse=True) # rajada: assert results with size come first
     #log.debug("[COLOR gold]Full size list %s[/COLOR]" % repr([x['size'] for x in results_list]))
 
     for result in results_list:
