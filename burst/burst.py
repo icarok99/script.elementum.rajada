@@ -124,6 +124,8 @@ if elementum_addon:
         # providers
         elementum_addon.setSetting('sorting_mode_movies', '1') # by Resolution
         elementum_addon.setSetting('sorting_mode_shows', '1') # by Resolution
+else:
+	elementum_timeout = 40
 
 # Make sure timeout is always less than the one from Elementum.
 if auto_timeout:
