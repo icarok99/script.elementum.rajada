@@ -9,7 +9,7 @@ from future.utils import PY3
 
 import re
 import hashlib
-from elementum.provider import log, get_setting
+from .elementum_provider import log, get_setting
 from .normalize import normalize_string, remove_accents
 from .providers.definitions import definitions
 from .utils import Magnet, get_int, get_float, clean_number, size_int, get_alias, translation
@@ -469,6 +469,9 @@ class Filtering:
                             use_language = self.kodi_language
                         if not use_language and language and language in self.info['titles']:
                             use_language = language
+                        if use_language not in self.info['titles'] or not self.info['titles'][use_language]:
+                            log.info("[%s] Falling back to original title in absence of %s language title" % (provider, use_language))
+                            use_language = "original"
 
                         if use_language in self.info['titles'] and self.info['titles'][use_language]:
                             title = self.info['titles'][use_language]

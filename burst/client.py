@@ -12,7 +12,7 @@ import urllib3
 import dns.resolver
 import requests
 
-from elementum.provider import log, get_setting
+from .elementum_provider import log, get_setting
 from time import sleep
 from urllib3.util import connection
 from .utils import encode_dict, translatePath

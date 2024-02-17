@@ -23,7 +23,7 @@ else:
     from .parser.HTMLParser import HTMLParser
 from kodi_six import py2_encode, py2_decode
 
-from elementum.provider import log
+from .elementum_provider import log
 
 def clean_title(string=None):
     """

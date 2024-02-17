@@ -13,7 +13,7 @@ import re
 import json
 import time
 from threading import Thread
-from elementum.provider import append_headers, get_setting, log, set_setting
+from .elementum_provider import append_headers, get_setting, log, set_setting
 if PY3:
     from queue import Queue
     from urllib.parse import urlparse
@@ -411,6 +411,8 @@ def search(payload, method="general"):
             if not payload['silent']: notify(message, ADDON_ICON)
 
     # rajada: add verified trackers to magnet link
+	# note: elementum already add trackers and bootstrap nodes
+	# ref: https://github.com/elgatito/elementum/blob/master/bittorrent/types.go
     for r in filtered_results:
         if '(T)' in r['name']: r['uri'] = r['uri'] + TR_FULL_STR # ToDO: will fail for (S) and international links, why ?
 

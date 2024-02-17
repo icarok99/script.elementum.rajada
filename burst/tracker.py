@@ -4,7 +4,7 @@ import socket
 import random
 from struct import error, pack, unpack
 from kodi_six import xbmcgui
-from elementum.provider import log
+from .elementum_provider import log
 from future.utils import PY3
 if PY3:
 	from urllib.parse import urlparse, quote

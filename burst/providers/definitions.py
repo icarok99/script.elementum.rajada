@@ -17,7 +17,7 @@ else:
     from urlparse import urlparse
     from io import open
 
-from elementum.provider import log
+from ..elementum_provider import log
 from kodi_six import xbmc, xbmcaddon, xbmcvfs
 
 start_time = time.time()
