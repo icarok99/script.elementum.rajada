@@ -8,6 +8,6 @@
 
 **Convert Flix to Elementum**
 
-1. run `rename.elementum.sh`
+1. run `rename.elementum.flix.sh`
 2. rename project folder to `script.elementum.rajada`
 3. run `generate.sh`
