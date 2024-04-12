@@ -88,9 +88,11 @@ if elementum_addon:
         notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
 
     if not check_seeders_peers and elementum_addon.getSetting('custom_provider_timeout_enabled') == 'true':
-        elementum_custom_timeout = '40'
-        elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
-        notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
+        current_custom_timeout = elementum_addon.getSetting('custom_provider_timeout')
+        if current_custom_timeout != '40':
+            elementum_custom_timeout = '40'
+            elementum_addon.setSetting('custom_provider_timeout', elementum_custom_timeout)
+            notify(translation(32251) % elementum_custom_timeout, ADDON_ICON)
 
     # in case of disabled checking and provider timeout equals false, we do nothing
 
