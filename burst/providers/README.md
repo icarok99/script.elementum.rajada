@@ -53,6 +53,12 @@
 | filmestorrentdownload.com.br | link protector |
 | snowfl.com | single page application |
 | limontorrents.com | obfuscated link |
+| brtorrents.org | link protector |
+| baixatorrent.com | link protector |
+| brfilmestorrent.com | link protector |
+| sofilmestorrent.net | link protector |
+| torrentbrfilmes.com | link protector |
+| thepiratefilmes.com.br | link protector |
 
 ---
 
