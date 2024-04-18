@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.jacktook.rajada" name="Jacktook [COLOR FFFF6B00]Rajada[/COLOR]" version="0.5" provider-name="gbchr">
+<addon id="script.jacktook.rajada" name="Jacktook [COLOR FFFF6B00]Rajada[/COLOR]" version="0.5.1" provider-name="gbchr">
     <requires>
         <import addon="xbmc.addon" version="16.0.0" />
         <import addon="plugin.video.jacktook" optional="true"/>

@@ -52,6 +52,10 @@ Abaixo os casos de teste realizados pelo desenvolvedor. Outras versões necessá
 
 ### Changelog
 
+**0.5.1**
+
+- compatibilidade com Elementum 0.1.100
+
 **0.5**
 
 - provedores atualizados
