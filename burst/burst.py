@@ -740,7 +740,7 @@ def extract_torrents(provider, client):
                 if info_hash_search:
                     log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'info_hash', info_hash_search, info_hash))
                 if referer_search:
-                    log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'info_hash', referer_search, referer))
+                    log.debug("[%s] Parser debug | Matched '%s' iteration for query '%s': %s" % (provider, 'referer', referer_search, referer))
 
             # Pass client cookies with torrent if private
             if not torrent.startswith('magnet'):
@@ -940,47 +940,66 @@ def extract_from_page(provider, content):
                 result = zip(matches, sizes)
             return result
 
-        matches = re.findall('http(.*?).torrent["\']', content)
+        matches = re.findall(r'http(.*?).torrent["\']', content)
         if matches:
             result = 'http' + matches[0] + '.torrent'
             result = result.replace('torcache.net', 'itorrents.org')
             log.debug('[%s] Matched torrent link: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('/download\?token=[A-Za-z0-9%]+', content)
+        matches = re.findall(r'/download\?token=[A-Za-z0-9%]+', content)
         if matches:
             result = definition['root_url'] + matches[0]
             log.debug('[%s] Matched download link with token: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('"(/download/[A-Za-z0-9]+)"', content)
+        matches = re.findall(r'"(/download/[A-Za-z0-9]+)"', content)
         if matches:
             result = definition['root_url'] + matches[0]
             log.debug('[%s] Matched download link: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('/torrents/download/\?id=[a-z0-9-_.]+', content)  # t411
+        matches = re.findall(r'/torrents/download/\?id=[a-z0-9-_.]+', content)  # t411
         if matches:
             result = definition['root_url'] + matches[0]
             log.debug('[%s] Matched download link with an ID: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('\: ([A-Fa-f0-9]{40})', content)
+        matches = re.findall(r'\: ([A-Fa-f0-9]{40})', content)
         if matches:
             result = "magnet:?xt=urn:btih:" + matches[0]
             log.debug('[%s] Matched magnet info_hash search: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('/download.php\?id=([A-Za-z0-9]{40})\W', content)
+        matches = re.findall(r'/download.php\?id=([A-Fa-f0-9]{40})\W', content)
         if matches:
             result = "magnet:?xt=urn:btih:" + matches[0]
+            log.debug('[%s] Matched magnet info_hash search: %s' % (provider, repr(result)))
+            return result
+
+        matches = re.findall(r'/engine/download.php\?id=[A-Za-z0-9]+[^\s\'"]*', content)  # animaunt
+        if matches:
+            result = definition['root_url'] + matches[0]
+            result += "|Referer=" + result  # we need to add Referer header to download .torrent
             log.debug('[%s] Matched download link: %s' % (provider, repr(result)))
             return result
 
-        matches = re.findall('(/download.php\?id=[A-Za-z0-9]+[^\s\'"]*)', content)
+        matches = re.findall(r'(/download.php\?id=[A-Za-z0-9]+[^\s\'"]*)', content)
         if matches:
             result = definition['root_url'] + matches[0]
             log.debug('[%s] Matched download link: %s' % (provider, repr(result)))
+            return result
+
+        matches = re.findall(r'/get_torrents?/([A-Fa-f0-9]{40})', content)
+        if matches:
+            result = "magnet:?xt=urn:btih:" + matches[0]
+            log.debug('[%s] Matched magnet info_hash search: %s' % (provider, repr(result)))
+            return result
+
+        matches = re.findall(r'/hash/([A-Fa-f0-9]{40})', content)  # bt4g
+        if matches:
+            result = "magnet:?xt=urn:btih:" + matches[0]
+            log.debug('[%s] Matched magnet info_hash search: %s' % (provider, repr(result)))
             return result
     except:
         pass

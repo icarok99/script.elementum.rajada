@@ -6,6 +6,8 @@ from struct import error, pack, unpack
 from kodi_six import xbmcgui
 from .elementum_provider import log
 from future.utils import PY3
+import base64
+
 if PY3:
 	from urllib.parse import urlparse, quote
 else:
@@ -159,7 +161,11 @@ def get_torrent_info(torrent_obj):
 	name = torrent_obj['name']
 
 	try:
-		new_hash = bytearray.fromhex(hash) # hex bytes array from hash string
+		# Detect if the hash is in Base32 format
+		if all(c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=' for c in hash.upper()):
+			new_hash = bytearray(base64.b32decode(hash))  # Base32 to bytes
+		else:
+			new_hash = bytearray.fromhex(hash)  # Hex to bytes
 	except ValueError:
 		return (hash, -1, -1)
 

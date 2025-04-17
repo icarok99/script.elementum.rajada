@@ -29,15 +29,15 @@ from kodi_six import xbmcaddon
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
-USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/605.1.15"
 if os.name == 'nt':
-    USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+    USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/605.1.15 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/605.1.15"
 PATH_TEMP = translatePath("special://temp")
 
 # Custom DNS default data
 dns_cache = {}
 dns_public_list = ['9.9.9.9', '8.8.8.8', '8.8.4.4']
-dns_opennic_list = ['163.172.168.171', '152.70.189.130', '167.86.112.174']
+dns_opennic_list = ['54.36.111.116', '192.3.165.37', '80.78.132.79']
 # Save original DNS resolver
 _orig_create_connection = connection.create_connection
 
