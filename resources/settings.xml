@@ -7,7 +7,7 @@
 
     <setting label="32084" id="use_public_dns" type="bool" default="false" enable="eq(-2,false) + eq(3,false)" />
       <setting id="public_dns_list" label="32093" type="text" default="8.8.8.8, 8.8.4.4, 9.9.9.9" enable="eq(-1,true) + eq(-3,false)" />
-      <setting id="opennic_dns_list" label="32094" type="text" default="163.172.168.171, 152.70.189.130, 167.86.112.174" enable="eq(-2,true) + eq(-4,false)" />
+      <setting id="opennic_dns_list" label="32094" type="text" default="54.36.111.116, 192.3.165.37, 80.78.132.79" enable="eq(-2,true) + eq(-4,false)" />
     <setting label="32140" id="use_tor_dns" type="bool" default="false" enable="eq(-3,false)" />
     <setting id="tor_dns_help" label="32141" type="text" enable="false" subsetting="true" />
     <setting label="32033" id="min_size" type="slider" option="float" range="0,0.25,100" default="0" />
@@ -35,7 +35,11 @@
       <setting id="1337x_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="1337x_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]BitSearch[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32126]][/COLOR]" id="use_bitsearch" type="bool" default="true" />
+    <setting label="[B]BT4G[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_bt4g" type="bool" default="true" />
+      <setting id="bt4g_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="bt4g_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+
+	<setting label="[B]BitSearch[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32126]][/COLOR]" id="use_bitsearch" type="bool" default="false" />
       <setting id="bitsearch_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="bitsearch_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -87,7 +91,7 @@
       <setting id="limetorrents_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="limetorrents_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]MagnetDL[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_magnetdl" type="bool" default="true" />
+    <setting label="[B]MagnetDL[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_magnetdl" type="bool" default="false" />
       <setting id="magnetdl_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="magnetdl_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -108,7 +112,7 @@
       <setting id="skytorrents_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="skytorrents_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]YTS[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_yts" type="bool" default="true" />
+    <setting label="[B]YTS[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_yts" type="bool" default="false" />
       <setting id="yts_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="yts_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -148,7 +152,7 @@
       <setting id="torrentfunk_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfunk_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="true" />
+    <setting label="[B]TorrentGalaxy[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentgalaxy" type="bool" default="false" />
       <setting id="torrentgalaxy_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentgalaxy_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -177,39 +181,39 @@
   <category label="32199">
 	<!-- Providers-Brazil-Begin -->
 
-	<setting label="[B]cinetorrent.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_cinetorrent.com.br" type="bool" default="true" />
+	<setting label="[B]cinetorrent.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_cinetorrent.com.br" type="bool" default="false" />
       <setting id="cinetorrent.com.br_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="cinetorrent.com.br_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 	
-	<setting label="[B]lapumia.co[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_lapumia.co" type="bool" default="true" />
+	<setting label="[B]lapumia.co[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_lapumia.co" type="bool" default="false" />
       <setting id="lapumia.co_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="lapumia.co_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]nerdfilmes.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_nerdfilmes.com.br" type="bool" default="true" />
+	<setting label="[B]nerdfilmes.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_nerdfilmes.com.br" type="bool" default="false" />
       <setting id="nerdfilmes.com.br_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="nerdfilmes.com.br_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]comandotorrents.to[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrents.to" type="bool" default="true" />
+	<setting label="[B]comandotorrents.to[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrents.to" type="bool" default="false" />
       <setting id="comandotorrents.to_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="comandotorrents.to_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]insanostorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_insanostorrent.com" type="bool" default="true" />
+	<setting label="[B]insanostorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_insanostorrent.com" type="bool" default="false" />
       <setting id="insanostorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="insanostorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]filmeviatorrents.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmeviatorrents.org" type="bool" default="true" />
+	<setting label="[B]filmeviatorrents.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmeviatorrents.org" type="bool" default="false" />
       <setting id="filmeviatorrents.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmeviatorrents.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]comando4kfilmes.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comando4kfilmes.org" type="bool" default="true" />
-      <setting id="comando4kfilmes.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
-      <setting id="comando4kfilmes.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+	<setting label="[B]comando4kfilmes.cc[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comando4kfilmes.cc" type="bool" default="true" />
+      <setting id="comando4kfilmes.cc_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+      <setting id="comando4kfilmes.cc_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]wolverdon.site[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_wolverdon.site" type="bool" default="true" />
+	<setting label="[B]wolverdon.site[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_wolverdon.site" type="bool" default="false" />
       <setting id="wolverdon.site_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="wolverdon.site_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 	
-	<setting label="[B]filmestorrent.tv[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrent.tv" type="bool" default="false" />
+	<setting label="[B]filmestorrent.tv[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_filmestorrent.tv" type="bool" default="true" />
       <setting id="filmestorrent.tv_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmestorrent.tv_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -217,47 +221,47 @@
       <setting id="filmestorrents.pro_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="filmestorrents.pro_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]torrentdofilmes.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdofilmes.com" type="bool" default="true" />
+	<setting label="[B]torrentdofilmes.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdofilmes.com" type="bool" default="false" />
       <setting id="torrentdofilmes.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdofilmes.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]torrentdosfilmes.site[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.site" type="bool" default="true" />
+	<setting label="[B]torrentdosfilmes.site[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.site" type="bool" default="false" />
       <setting id="torrentdosfilmes.site_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdosfilmes.site_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]bludv.xyz[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_bludv.xyz" type="bool" default="true" />
+	<setting label="[B]bludv.xyz[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_bludv.xyz" type="bool" default="false" />
       <setting id="bludv.xyz_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="bludv.xyz_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />	
 
-	<setting label="[B]torrentdosfilmes.se[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.se" type="bool" default="true" />
+	<setting label="[B]torrentdosfilmes.se[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_torrentdosfilmes.se" type="bool" default="false" />
       <setting id="torrentdosfilmes.se_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentdosfilmes.se_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]netjmx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_netjmx.com" type="bool" default="true" />
+	<setting label="[B]netjmx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_netjmx.com" type="bool" default="false" />
       <setting id="netjmx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="netjmx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]emtorrents.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_emtorrents.com" type="bool" default="true" />
+	<setting label="[B]emtorrents.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_emtorrents.com" type="bool" default="false" />
       <setting id="emtorrents.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="emtorrents.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]vamostorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_vamostorrent.com" type="bool" default="true" />
+	<setting label="[B]vamostorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_vamostorrent.com" type="bool" default="false" />
       <setting id="vamostorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="vamostorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]megatorrentsx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_megatorrentsx.com" type="bool" default="true" />
+	<setting label="[B]megatorrentsx.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_megatorrentsx.com" type="bool" default="false" />
       <setting id="megatorrentsx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="megatorrentsx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]semtorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_semtorrent.com" type="bool" default="true" />
+	<setting label="[B]semtorrent.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_semtorrent.com" type="bool" default="false" />
       <setting id="semtorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="semtorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]freefilmes.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_freefilmes.net" type="bool" default="true" />
+	<setting label="[B]freefilmes.net[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_freefilmes.net" type="bool" default="false" />
       <setting id="freefilmes.net_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="freefilmes.net_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]ontorrent.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_ontorrent.org" type="bool" default="true" />
+	<setting label="[B]ontorrent.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_ontorrent.org" type="bool" default="false" />
       <setting id="ontorrent.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="ontorrent.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -265,7 +269,7 @@
       <setting id="torrentfilmesx.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="torrentfilmesx.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]piratetorrentsxd.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_piratetorrentsxd.com" type="bool" default="true" /> 
+	<setting label="[B]piratetorrentsxd.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_piratetorrentsxd.com" type="bool" default="false" /> 
       <setting id="piratetorrentsxd.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="piratetorrentsxd.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
@@ -273,19 +277,19 @@
       <setting id="gratistorrent.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="gratistorrent.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]comandofilmes.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandofilmes.com.br" type="bool" default="true" />
+	<setting label="[B]comandofilmes.com.br[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandofilmes.com.br" type="bool" default="false" />
   	  <setting id="comandofilmes.com.br_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
   	  <setting id="comandofilmes.com.br_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]comandotorrent.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrent.org" type="bool" default="true" />
+	<setting label="[B]comandotorrent.org[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_comandotorrent.org" type="bool" default="false" />
   	  <setting id="comandotorrent.org_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
       <setting id="comandotorrent.org_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]megatorrent4k.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_megatorrent4k.com" type="bool" default="true" />
-  	  <setting id="megatorrent4k.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
-  	  <setting id="megatorrent4k.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
+	<setting label="[B]baixafilmestorrent2025.com[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_baixafilmestorrent2025.com" type="bool" default="true" />
+  	  <setting id="baixafilmestorrent2025.com_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
+  	  <setting id="baixafilmestorrent2025.com_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
-	<setting label="[B]wolverdon.fun[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_wolverdon.fun" type="bool" default="true" />
+	<setting label="[B]wolverdon.fun[/B]   [COLOR gray][$ADDON[script.elementum.rajada 32111]][/COLOR]" id="use_wolverdon.fun" type="bool" default="false" />
   	  <setting id="wolverdon.fun_alias" label="32077" type="text" default="" subsetting="true" visible="eq(-1,true)" />
   	  <setting id="wolverdon.fun_contains" type="enum" label="32080" subsetting="true" lvalues="32081|32082|32083" visible="eq(-2,true)" />
 
