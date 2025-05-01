@@ -161,13 +161,18 @@ def get_torrent_info(torrent_obj):
 	name = torrent_obj['name']
 
 	try:
-		# Detect if the hash is in Base32 format
+		# Tenta converter como Base32
 		if all(c in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=' for c in hash.upper()):
-			new_hash = bytearray(base64.b32decode(hash))  # Base32 to bytes
+			new_hash = bytearray(base64.b32decode(hash))  # Base32 para bytes
 		else:
-			new_hash = bytearray.fromhex(hash)  # Hex to bytes
+			raise ValueError("Não é Base32")  # Força a tentativa como Hex se não for Base32
 	except ValueError:
-		return (hash, -1, -1)
+		try:
+			# Se falhar como Base32, tenta como Hexadecimal
+			new_hash = bytearray.fromhex(hash)  # Hex para bytes
+		except ValueError:
+			# Se falhar em ambas as tentativas, retorna erro
+			return (hash, -1, -
 
 	#id = hashlib.sha1(str(65000).encode('utf-8')).digest() # peer id
 	id = hashlib.sha1(str(time.time()).encode('utf-8')).digest() # peer id
